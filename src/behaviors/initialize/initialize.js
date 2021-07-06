@@ -224,6 +224,9 @@ const PLUGIN_MAPPINGS = [
   // Busy Indicator
   ['busyindicator', '.busy, .busy-xs, .busy-sm'],
 
+  // Loading Indicator
+  ['loading-indicator', '.loading, .loading-xs, .loading-sm'],
+
   ['header'],
 
   ['fileupload', 'input.fileupload:not(.fileupload-background-transparent):not([type="text"])'],

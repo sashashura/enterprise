@@ -40,6 +40,7 @@ import './fontpicker/fontpicker.jquery';
 import './homepage/homepage.jquery';
 import './listbuilder/listbuilder.jquery';
 import './listview/listview.jquery';
+import './loading-indicator/loading-indicator.jquery';
 import './message/message.jquery';
 import './modal/modal.jquery';
 import './monthview/monthview.jquery';

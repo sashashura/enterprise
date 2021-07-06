@@ -36,6 +36,7 @@ export { ExpandableArea } from './expandablearea/expandablearea';
 export { FontPicker, FontPickerStyle } from './fontpicker/fontpicker';
 export { Line } from './line/line';
 export { ListBuilder } from './listbuilder/listbuilder';
+export { LoadingIndicator } from './loading-indicator/loading-indicator';
 export { ListView } from './listview/listview';
 export { Message } from './message/message';
 export { MultiSelect } from './multiselect/multiselect';
