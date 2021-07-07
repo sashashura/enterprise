@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="six columns">
+    <h2>Loading Indicator Test: Block Entire UI</h2>
+    <p></p>
+    <p></p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="six columns">
+
+    <form id="loading-form" class="loading" action="#" method="POST" data-display-delay="300">
+      <div class="field">
+        <label for="loading-field-name">Name</label>
+        <input id="loading-field-name" name="loading-field-name" />
+      </div>
+      <div class="field">
+        <label for="loading-field-address">Address</label>
+        <input id="loading-field-address" name="loading-field-address" />
+      </div>
+      <div class="field">
+        <label for="loading-field-cats">Number of Cats</label>
+        <input id="loading-field-cats" name="loading-field-cats" />
+      </div>
+      <div class="field">
+        <button type="reset" id="reset" class="btn-secondary">Clear</button>
+        <button type="submit" id="submit" class="btn-primary">Submit</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+<script>
+  $('body').on('initialized', function() {
+    $('#loading-form button[type="submit"]').click(function(e) {
+      e.preventDefault();
+      $('#loading-form').trigger('start.loading-indicator');
+    });
+  });
+</script>

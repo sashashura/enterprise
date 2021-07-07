@@ -1,0 +1,40 @@
+<div class="row">
+  <div class="six columns">
+    <h2>Loading Indicator Test: Container with <span class="code">font-size: 0;</span></h2>
+    <p><a class="hyperlink" href="http://jira.infor.com/browse/SOHO-6145" target="_blank">Related JIRA Ticket</a>.</p>
+    <p>Loading Indicators placed inside of UI containers with a "zero" font-size
+    (to remove extra text padding, etc) should still properly display a loading indicator.
+    The linked ticket fixes a bug where this was not the case, since the loading indicator used to be
+    constructed against <span class="code">em</span> measurements.</p><br/><br/>
+  </div>
+</div>
+
+<style id="test-style">
+  #standalone-loading .loading-indicator-container {
+    font-size: 0;
+  }
+</style>
+
+<div class="row">
+  <div class="six columns">
+    <button class="btn-secondary" id="loading-start-trigger" type="button">Fire "start" Event</button><br />
+    <br>
+    <button class="btn-secondary" id="loading-complete-trigger" type="button">Fire "complete" Event</button><br />
+  </div>
+  <div class="six columns">
+    <div id="standalone-loading" class="loading card"></div>
+  </div>
+</div>
+
+<script>
+  $('body').on('initialized', function() {
+    $('#loading-start-trigger').click(function(e) {
+      e.preventDefault();
+      $('#standalone-loading').trigger('start.loading-indicator');
+    });
+    $('#loading-complete-trigger').click(function(e) {
+      e.preventDefault();
+      $('#standalone-loading').trigger('complete.loading-indicator');
+    });
+  });
+</script>

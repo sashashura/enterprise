@@ -1,0 +1,72 @@
+<div class="row">
+  <div class="six columns">
+    <h2>Loading
+       Indicator Test: Nested Loading Indicators</h2>
+    <p>The "card" loading indicator (marked by the card border) is nested inside the "form" loading indicator (marked in amber).  They should both still operate independently of one another.  The <b>start</b> and <b>complete</b> events on a "loading" element should never bubble.</p>
+    <p></p>
+  </div>
+</div>
+
+<form id="nested-loading-form" class="loading" action="#" method="POST" data-completion-time="2000" data-close-time="3000" style="padding: 20px;">
+
+  <div class="row">
+    <div class="six columns">
+      <div class="field">
+        <label for="nested-loading-field-name">Name</label>
+        <input id="nested-loading-field-name" name="nested-loading-field-name" />
+      </div>
+      <div class="field">
+        <label for="nested-loading-field-address">Address</label>
+        <input id="nested-loading-field-address" name="nested-loading-field-address" />
+      </div>
+      <div class="field">
+        <label for="nested-loading-field-cats">Number of Cats</label>
+        <input id="nested-loading-field-cats" name="nested-loading-field-cats" />
+      </div>
+      <div class="field">
+        <button type="reset" id="reset" class="btn-secondary">Clear</button>
+        <button type="submit" id="submit" class="btn-primary">Submit</button><br/>
+      </div>
+    </div>
+    <div class="six columns">
+
+      <div class="row">
+        <div class="one-half column">
+          <button class="btn-secondary" id="nested-loading-start-trigger" type="button">Fire "start" Event</button><br />
+          <br/>
+          <button class="btn-secondary" id="nested-loading-complete-trigger" type="button">Fire "complete" Event</button><br />
+        </div>
+        <div class="one-half column">
+          <div id="nested-loading-standalone" class="loading card"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</form>
+
+<script>
+  $('body').on('initialized', function() {
+    var topForm = $('#nested-loading-form'),
+      topFormSubmit = topForm.find('button[type="submit"]'),
+      standalone = $('#nested-loading-standalone'),
+      standaloneStart = $('#nested-loading-start-trigger'),
+      standaloneComplete = $('#nested-loading-complete-trigger');
+
+    topForm.on('submit.test', function(e) {
+      e.preventDefault();
+      topForm.trigger('start.loading-indicator');
+    });
+
+    standaloneStart.click(function(e) {
+      e.preventDefault();
+      standalone.trigger('start.loading-indicator');
+    });
+
+    standaloneComplete.click(function(e) {
+      e.preventDefault();
+      standalone.trigger('complete.loading-indicator');
+    });
+  });
+</script>

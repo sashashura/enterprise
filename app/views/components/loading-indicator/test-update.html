@@ -1,0 +1,42 @@
+
+<div class="row">
+  <div class="one-half column">
+
+    <form id="loading-form" class="loading" action="#" method="POST" data-options="{ 'displayDelay': 100, 'timeToComplete': 40000 }">
+      <div class="field">
+        <label for="loading-field-name">Name</label>
+        <input type="text" id="loading-field-name" name="loading-field-name" value="" />
+      </div>
+      <div class="field">
+        <label for="loading-field-address">Address</label>
+        <input type="text" id="loading-field-address" name="loading-field-address" value="" />
+      </div>
+      <div class="field">
+        <label for="loading-field-cats">Number of Cats</label>
+        <input type="text" id="loading-field-cats" name="loading-field-cats" value="" />
+      </div>
+      <div class="field">
+        <button type="submit" id="submit" class="btn-primary">Submit</button>
+      </div>
+    </form>
+  </div>
+
+</div>
+
+<script>
+  $(function(){
+    var form = $('#loading-form');
+
+    $('#loading-form button[type="submit"]').click(function(e) {
+      e.preventDefault();
+      form.trigger('start.loading-indicator');
+
+      var i = 0;
+      setTimeout(function () {
+        i++;
+        form.data('loading-indicator').updated({ text: 'New Text 1'});
+      }, 0);
+    });
+
+  });
+</script>

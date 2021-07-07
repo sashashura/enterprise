@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="twelve columns">
+      <h2 class="fieldset-title">Loading Indicator - Standalone Example (Non-UI-Blocking)</h2>
+  </div>
+</div>
+
+<div class="row">
+  <div class="one-half column">
+
+    <div class="field">
+      <button class="btn-secondary" id="loading-start-trigger" type="button">Start</button>
+      <button class="btn-secondary" id="loading-complete-trigger" type="button">Stop</button>
+    </div>
+
+    <br />
+    <br />
+    <div id="standalone-loading" class="loading card top-padding"></div>
+
+  </div>
+</div>
+
+<script>
+  $(function(){
+
+    $('#loading-start-trigger').click(function(e) {
+      e.preventDefault();
+      $('#standalone-loading').trigger('start.loading-indicator');
+    });
+
+    $('#loading-complete-trigger').click(function(e) {
+      e.preventDefault();
+      $('#standalone-loading').trigger('complete.loading-indicator');
+    });
+
+  });
+</script>

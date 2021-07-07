@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="one-half column">
+    <div class="loading" id="loading-form" data-options="{ 'displayDelay': 100, 'timeToComplete': 100000, 'attributes' : [{ name: 'id', value: 'loading-indicator-id-1' }, { name: 'data-automation-id', value: 'loading-indicator-automation-id-1' }] }">
+      <div class="field">
+        <label for="loading-field-name">Name</label>
+        <input type="text" id="loading-field-name" name="loading-field-name" value="" />
+      </div>
+      <div class="field">
+        <label for="loading-field-address">Address</label>
+        <input type="text" id="loading-field-address" name="loading-field-address" value="" />
+      </div>
+      <div class="field">
+        <label for="loading-field-cats">Number of Cats</label>
+        <input type="text" id="loading-field-cats" name="loading-field-cats" value="" />
+      </div>
+      <div class="field">
+        <button type="text" id="submit" class="btn-primary">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(function() {
+    $('#submit').click(function(e) {
+      $('#loading-form').trigger('start.loading-indicator');
+    });
+  });
+</script>

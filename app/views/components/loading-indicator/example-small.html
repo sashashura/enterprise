@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="twelve columns">
+      <h2 class="fieldset-title">Small Loading Indicator</h2>
+  </div>
+</div>
+
+<div class="row">
+  <div class="one-half column">
+
+    <div style="display: table;">
+      <button class="btn-secondary" id="trigger-loading-sm" type="button" style="display: inline-block; vertical-align: middle;">Load</button>
+      <div style="display: inline-block; vertical-align: middle; font-size: 14px; margin-left: 1rem;">Some Text</div>
+      <div class="loading-sm" id="loading-sm" data-options="{ 'blockUI': false, 'displayDelay': 100, 'timeToComplete': 4000 }"
+        style="display: inline-block; vertical-align: middle; margin-left: 1rem;"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  $(function(){
+
+    $('#trigger-loading-sm').click(function(e) {
+      e.preventDefault();
+      $('#loading-sm').trigger('start');
+    });
+
+  });
+</script>

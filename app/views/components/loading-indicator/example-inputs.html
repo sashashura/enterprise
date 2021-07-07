@@ -1,0 +1,49 @@
+
+<div class="row">
+  <div class="twelve columns">
+    <h2 class="fieldset-title">On Input Fields</h2>
+  </div>
+</div>
+
+<div class="row">
+  <div class="one-half column">
+    <div class="field">
+      <label class="label" for="loading-input">Loading Input Field</label>
+      <input class="loading" type="text" id="loading-input" data-options="{ 'blockUI': false, 'displayDelay': 100, 'timeToComplete': 4000 }"/>
+    </div>
+    <div class="field">
+      <button class="btn-secondary" id="trigger-loading-input" type="button">Load</button>
+    </div>
+  </div>
+
+  <div class="one-half column">
+    <div class="field">
+      <label class="label" for="loading-dropdown">Loading Dropdown</label>
+      <select class="dropdown loading" id="loading-dropdown" data-options="{ 'blockUI': false, 'displayDelay': 100, 'timeToComplete': 4000 }">
+        <option selected="true">Loading</option>
+        <option>Preoccupied</option>
+        <option>Distracted</option>
+        <option>Engaged</option>
+      </select>
+    </div>
+    <div class="field">
+      <button class="btn-secondary" id="trigger-loading-dropdown" type="button">Load</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(function(){
+
+    $('#trigger-loading-input').click(function(e) {
+      e.preventDefault();
+      $('#loading-input').trigger('start');
+    });
+
+    $('#trigger-loading-dropdown').click(function(e) {
+      e.preventDefault();
+      $('#loading-dropdown').trigger('start');
+    });
+
+  });
+</script>

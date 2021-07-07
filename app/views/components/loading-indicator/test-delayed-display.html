@@ -1,0 +1,66 @@
+<div class="row">
+  <div class="six columns">
+    <h2>Loading Indicator Test: Delayed Display</h2>
+    <p></p>
+    <p></p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="six columns">
+
+    <form id="loading-delayed-form" class="loading" action="#" method="POST" data-display-delay="2000" data-completion-time="4000">
+      <div class="field">
+        <label for="loading-reaction-time">Reaction Time (Loading Indicator Won't Display for "x" ms).</label>
+        <input id="loading-reaction-time" name="loading-reaction-time" value="2000"/>
+      </div>
+      <div class="field">
+        <label for="loading-completion-time">Completion Time (Loading Indicator Turns off at "x" ms).</label>
+        <input id="loading-completion-time" name="loading-completion-time" value="4000"/>
+      </div>
+      <div class="field">
+        <button type="reset" id="reset" class="btn-secondary">Clear</button>
+        <button type="submit" id="submit" class="btn-primary">Submit</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+<script>
+  $('body').on('initialized', function() {
+    var form = $('#loading-delayed-form'),
+      api = form.data('loading-indicator'),
+      submit = form.find('button[type="submit"]'),
+      reactionTimeField = $('#loading-reaction-time'),
+      completionTimeField = $('#loading-completion-time');
+
+    function update(dataField, value) {
+      if (isNaN(value)) {
+        return false;
+      }
+
+      value = parseInt(value, 10);
+      form.attr('data-' + dataField, value).trigger('updated.loading-indicator');
+    }
+
+    reactionTimeField.change(function(e) {
+      if (!update('delay', e.target.value)) {
+        e.preventDefault();
+        return false;
+      };
+    });
+
+    completionTimeField.change(function(e) {
+      if (!update('completion-time', e.target.value)) {
+        e.preventDefault();
+        return false;
+      };
+    });
+
+    submit.click(function(e) {
+      e.preventDefault();
+      form.trigger('start.loading-indicator');
+    });
+  });
+</script>

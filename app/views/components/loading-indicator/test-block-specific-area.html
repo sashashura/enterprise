@@ -1,0 +1,31 @@
+<div class="row">
+  <div class="six columns">
+    <h2>Loading Indicator Test: Block Specific UI Area</h2>
+    <p></p>
+    <p></p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="six columns">
+    <button class="btn-secondary" id="loading-start-trigger" type="button">Fire "start" Event</button><br />
+    <br>
+    <button class="btn-secondary" id="loading-complete-trigger" type="button">Fire "complete" Event</button><br />
+  </div>
+  <div class="six columns">
+    <div id="standalone-loading" class="loading card"></div>
+  </div>
+</div>
+
+<script>
+  $('body').on('initialized', function() {
+    $('#loading-start-trigger').click(function(e) {
+      e.preventDefault();
+      $('#standalone-loading').trigger('start.loading-indicator');
+    });
+    $('#loading-complete-trigger').click(function(e) {
+      e.preventDefault();
+      $('#standalone-loading').trigger('complete.loading-indicator');
+    });
+  });
+</script>
