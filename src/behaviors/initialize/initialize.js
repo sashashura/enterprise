@@ -225,7 +225,7 @@ const PLUGIN_MAPPINGS = [
   ['busyindicator', '.busy, .busy-xs, .busy-sm'],
 
   // Loading Indicator
-  ['loading-indicator', '.loading, .loading-xs, .loading-sm'],
+  ['loadingindicator', '.loading, .loading-xs, .loading-sm'],
 
   ['header'],
 

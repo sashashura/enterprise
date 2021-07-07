@@ -5,7 +5,7 @@ import { LoadingIndicator, COMPONENT_NAME } from './loading-indicator';
  * @param {object} [settings] incoming settings
  * @returns {jQuery[]} jQuery-wrapped components being acted on
  */
-$.fn.loadingIndicator = function (settings) {
+$.fn.loadingindicator = function (settings) {
   return this.each(function () {
     let instance = $.data(this, COMPONENT_NAME);
     if (instance) {
