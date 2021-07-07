@@ -112,6 +112,16 @@ module.exports = function customRouteOptions(req, res) {
     customOpts.setOption('layout', 'layout-empty');
   }
 
+  // Loading-indicator on body tag (needs to load loading-indicator on the body tag)
+  if (url.match(/loading-indicator\/test-loading-indicator-on-body/)) {
+    customOpts.setOption('layout', 'layout-empty');
+  }
+
+  // Loading-indicator on maincontent container
+  if (url.match(/loading-indicator\/test-on-maincontent/)) {
+    customOpts.setOption('layout', 'layout-empty');
+  }
+
   // Sign-in Dialog
   if (url.match(/tests\/signin/)) {
     customOpts.setOption('layout', 'tests/layout-noheader');

@@ -1,4 +1,4 @@
-import { BusyIndicator } from '../../../src/components/loding-indicator/loading-indicator';
+import { LoadingIndicator } from '../../../src/components/loading-indicator/loading-indicator';
 import { cleanup } from '../../helpers/func-utils';
 
 const loadingindicatorHTML = require('../../../app/views/components/loading-indicator/example-index.html');
@@ -13,7 +13,7 @@ describe('Loading Indicator API', () => {
     document.body.insertAdjacentHTML('afterbegin', loadingindicatorHTML);
 
     loadingIndicatorEl = document.body.querySelector('#loading-form');
-    loadingIndicatorObj = new BusyIndicator(loadingIndicatorEl);
+    loadingIndicatorObj = new LoadingIndicator(loadingIndicatorEl);
   });
 
   afterEach(() => {
@@ -29,7 +29,7 @@ describe('Loading Indicator API', () => {
 
   it('Should handle custom text', (done) => {
     loadingIndicatorObj.destroy();
-    loadingIndicatorObj = new BusyIndicator(loadingIndicatorEl, { text: 'Hang Tough, Skippy...' });
+    loadingIndicatorObj = new LoadingIndicator(loadingIndicatorEl, { text: 'Hang Tough, Skippy...' });
     loadingIndicatorObj.activate();
 
     setTimeout(() => {

@@ -41,7 +41,7 @@ describe('Loading Indicator example-index tests', () => {
   });
 });
 
-describe('Busy Indicator example-inputs tests', () => {
+describe('Loading Indicator example-inputs tests', () => {
   beforeEach(async () => {
     await utils.setPage('/components/loading-indicator/example-inputs');
   });
@@ -208,13 +208,13 @@ describe('Busy Indicator test-nested tests', () => {
 
     expect(await nestedStandaloneEl.element(by.className('loading-indicator-container'))).toBeTruthy();
 
-    const nestedBusyIndicatorEl = await element.all(by.css('.loading-indicator-container'));
+    const nestedLoadingIndicatorEl = await element.all(by.css('.loading-indicator-container'));
 
-    expect(nestedBusyIndicatorEl.length).toEqual(2);
+    expect(nestedLoadingIndicatorEl.length).toEqual(2);
   });
 });
 
-describe('Busy Indicator test-update tests', () => {
+describe('Loading Indicator test-update tests', () => {
   beforeEach(async () => {
     await utils.setPage('/components/loading-indicator/test-update');
   });
