@@ -13,9 +13,9 @@ const COMPONENT_NAME = 'loading-indicator';
  * @param {object} [settings] The settings to use.
  * @param {string} [settings.blockUI=true] makes the element that Busy Indicator is invoked on unusable while it's displayed.
  * @param {string} [settings.text=null] Custom Text To Show or Will Show Localized Loading....
+ * @param {number} [settings.progress] The percentage complete; if specified as a parsable number, the indicator becomes determinate.
  * @param {string} [settings.displayDelay=1000] Number in miliseconds to pass before the markup is displayed. If 0, displays immediately.
  * @param {boolean} [settings.timeToComplete=0] fires the 'complete' trigger at a certain timing interval. If 0, goes indefinitely.
- * CAN DEPRECATE/NOT DO TEMPORARILY
  * @param {string} [settings.transparentOverlay=false] If true, allows the "blockUI" setting to display
  * an overlay that prevents interaction, but appears transparent instead of gray.
  * @param {string} [settings.overlayOnly=false] If true, the loading indicator will only be the overlay.
@@ -31,8 +31,17 @@ const LOADING_INDICATOR_DEFAULTS = {
   timeToComplete: 0,
   transparentOverlay: false,
   overlayOnly: false,
-  attributes: null
+  attributes: null,
+  type: 'circular',
+  progress: undefined
 };
+
+const getPercentageTextHtml = ({ progress, type = 'circular' }) => (
+  `<div class="progress-percentage ${type}" part="percentage-text">
+    <ids-text font-size="14" font-weight="bold" color="unset" label>
+      ${progress}<span class="percentage">%</span></ids-text>
+  </div>`
+);
 
 function LoadingIndicator(element, settings) {
   this.settings = utils.mergeSettings(element, settings, LOADING_INDICATOR_DEFAULTS);
@@ -50,18 +59,22 @@ LoadingIndicator.prototype = {
     this.inlineLabelText = this.inlineLabel.find('.label-text');
     this.isInlineLabel = this.element.parent().is('.inline');
 
-    this
-      .setup()
+    this.setup()
       .handleEvents();
   },
 
   // Sanitize incoming option values
   setup() {
     const blockUI = this.element.attr('data-block-ui');
+    const type = this.element.attr('data-type');
+    const progress = this.element.attr('data-progress');
     const delay = this.element.attr('data-display-delay');
     const completionTime = this.element.attr('data-completion-time');
 
     this.blockUI = blockUI !== undefined ? blockUI : this.settings.blockUI;
+    this.type = type !== undefined ? type : this.settings.type;
+    this.progress = progress !== undefined ? progress : this.settings.progress;
+
     if (!this.settings.overlayOnly) {
       this.loadingText = this.settings.text ? this.settings.text : Locale.translate('Loading');
 
@@ -120,14 +133,65 @@ LoadingIndicator.prototype = {
       'aria-live': 'polite',
       role: 'status'
     });
-    this.loader = $('<div class="loading-indicator active"></div>').appendTo(this.container);
+
+    this.loader = $(`<div class="loading-indicator active ${this.type}"></div>`).appendTo(this.container);
 
     if (!this.settings.overlayOnly) {
-      $('<div class="bar one"></div>' +
-        '<div class="bar two"></div>' +
-        '<div class="bar three"></div>' +
-        '<div class="bar four"></div>' +
-        '<div class="bar five"></div>').appendTo(this.loader);
+      switch (this.type) {
+        case 'determinate':
+        case 'linear': {
+          let loaderClass = 'linear-indicator';
+          loaderClass += this.type === 'sticky' ? ' sticky' : '';
+          loaderClass += ` ${(typeof this.progress !== 'number') ? 'in' : 'determinate'}`;
+          loaderClass += this.inline ? ' inline' : '';
+
+          const overallYOffset = `y="${this.type === 'sticky' ? '0' : '12.5'}%"`;
+
+          $(
+            `<svg
+            xmlns="http://www.w3.org/2000/svg"
+            ${loaderClass}
+            part="container"
+            class="ids-loading-indicator"
+          >
+            <rect
+              width="100%"
+              height="75%"
+              ${overallYOffset}
+              class="overall"
+              part="overall"
+            />
+            <rect
+              width="100%"
+              height="100%"
+              class="progress"
+              part="progress"
+            />
+          </svg>`
+          ).appendTo(this.loader);
+          break;
+        }
+        default:
+        case 'circular': {
+          let loaderClass = 'circular-indicator';
+          loaderClass += ` ${(typeof this.progress !== 'number') ? 'in' : 'determinate'}`;
+          loaderClass += this.inline ? ' inline' : '';
+
+          $(`<svg
+              viewbox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+              ${classStr}
+              part="container"
+              class="ids-loading-indicator"
+            >
+              <circle cx="50" cy="50" r="45" stroke-width="${inline ? 8 : 4}" class="overall" part="overall" />
+              <circle cx="50" cy="50" r="45" stroke-width="${inline ? 18 : 7}" class="progress" part="progress" />
+            </svg>
+            ${!percentageVisible ? '' : getPercentageTextHtml({ progress: this.progress }) }`
+          );`).appendTo(this.loader);
+          break;
+        }
+      }
 
       this.label = $(`<span>${this.loadingText}</span>`).appendTo(this.container);
     }
@@ -218,12 +282,6 @@ LoadingIndicator.prototype = {
     // Lets external code know that we've successully kicked off.
     this.element.trigger('afterstart');
 
-    // Start the JS Animation Loop if IE9
-    if (!$.fn.cssPropSupport('animation')) {
-      self.isAnimating = true;
-      self.animateWithJS();
-    }
-
     // Triggers complete if the "timeToComplete" option is set.
     if (this.completionTime > 0) {
       setTimeout(() => {
@@ -286,74 +344,6 @@ LoadingIndicator.prototype = {
       self.element.trigger('aftercomplete.loading-indicator');
       self.element.off('complete.loading-indicator');
     }, 600);
-  },
-
-  /**
-   * Browsers that don't support CSS-based animation can still show the animating Busy Indicator.
-   * @private
-   */
-  animateWithJS() {
-    const self = this;
-    const bar1 = this.container.find('.bar.one');
-    const bar2 = this.container.find('.bar.two');
-    const bar3 = this.container.find('.bar.three');
-    const bar4 = this.container.find('.bar.four');
-    const bar5 = this.container.find('.bar.five');
-    let t = 0;
-    const interval = null;
-
-    // Animation Loop
-    function animate() {
-      if (!self.isAnimating) {
-        clearInterval(interval);
-        return;
-      }
-
-      t += 1;
-
-      if (t === 1) {
-        bar1.addClass('half');
-      }
-      if (t === 13) {
-        bar1.removeClass('half').addClass('full');
-        bar2.addClass('half');
-      }
-      if (t === 26) {
-        bar1.removeClass('full').addClass('half');
-        bar2.removeClass('half').addClass('full');
-        bar3.addClass('half');
-      }
-      if (t === 39) {
-        bar1.removeClass('half');
-        bar2.removeClass('full').addClass('half');
-        bar3.removeClass('half').addClass('full');
-        bar4.addClass('half');
-      }
-      if (t === 51) {
-        bar2.removeClass('half');
-        bar3.removeClass('full').addClass('half');
-        bar4.removeClass('half').addClass('full');
-        bar5.addClass('half');
-      }
-      if (t === 64) {
-        bar3.removeClass('half');
-        bar4.removeClass('full').addClass('half');
-        bar5.removeClass('half').addClass('full');
-      }
-      if (t === 77) {
-        bar4.removeClass('half');
-        bar5.removeClass('full').addClass('half');
-      }
-      if (t === 90) {
-        bar5.removeClass('half');
-      }
-
-      if (t === 103) {
-        t = 0;
-      }
-    }
-
-    setInterval(animate, 10);
   },
 
   /**
