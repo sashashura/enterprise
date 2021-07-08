@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="twelve columns">
+      <h2 class="fieldset-title">Inline Loading Indicator</h2>
+  </div>
+</div>
+
+<div class="row">
+  <div class="one-half column">
+
+    <div style="display: table;">
+      <button class="btn-secondary" id="trigger-loading-inline" type="button" style="display: inline-block; vertical-align: middle;">Load</button>
+      <div style="display: inline-block; vertical-align: middle; font-size: 14px; margin-left: 1rem;">Some Text</div>
+      <div class="loading" id="loading-inline" data-options="{ 'blockUI': false, 'displayDelay': 100, 'timeToComplete': 4000, inline: true }"
+        style="display: inline-flex; vertical-align: middle; margin-left: 1rem; align-items: center; justify-content: center;"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  $(function(){
+    $('#trigger-loading-inline').click(function(e) {
+      e.preventDefault();
+      $('#loading-inline').trigger('start');
+    });
+  });
+</script>

@@ -12,8 +12,8 @@ demo:
     slug: example-inputs
   - name: Non Blocking Loading Indicator
     slug: example-non-blocking
-  - name: Smaller Size
-    slug: example-small
+  - name: Inline/Smaller Loading Indicator
+    slug: example-inline
   - name: Nested Loading Indicators
     slug: test-nested
   - name: transparent Overlay

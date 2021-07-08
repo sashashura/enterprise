@@ -4,6 +4,30 @@
 $loading-indicator-color: $button-color-primary-initial-background;
 $loading-indicator-check-color: $inverse-color;
 
+.dropdown-wrapper > .loading-indicator-container svg.circular-indicator,
+input[type='text'] + .loading-indicator-container svg.circular-indicator {
+  height: 13px;
+  width: 13px;
+}
+
+.dropdown-wrapper > .loading-indicator-container svg.circular-indicator {
+  left: -32px;
+}
+
+input[type='text'] + .loading-indicator-container svg.circular-indicator {
+  left: -12px;
+}
+
+.dropdown-wrapper > .loading-indicator-container svg.circular-indicator .progress,
+input[type='text'] + .loading-indicator-container svg.circular-indicator .progress {
+  stroke-width: 18px;
+}
+
+.dropdown-wrapper svg.circular-indicator .overall,
+input[type='text'] + .loading-indicator-container svg.circular-indicator .overall {
+  stroke-width: 14px;
+}
+
 .loading-indicator-container {
   @include opacity(1);
   @include transition(opacity 500ms);
@@ -114,6 +138,19 @@ svg.linear-indicator.indeterminate .progress {
   }
 }
 
+.loading-indicator svg.circular-indicator.inline {
+  height: 13px;
+  width: 13px;
+}
+
+.loading-indicator svg.circular-indicator.inline .overall {
+  stroke-width: 14px;
+}
+
+.loading-indicator svg.circular-indicator.inline .progress {
+  stroke-width: 18px;
+}
+
 .loading-indicator {
   @include opacity(1);
 
@@ -138,22 +175,19 @@ svg.linear-indicator.indeterminate .progress {
 
     .overall {
       stroke: var(--overall-color);
+      stroke-width: 4px;
     }
 
     .progress {
       stroke: var(--progress-color);
       stroke-dasharray: 283;
+      stroke-width: 8px;
     }
   }
 
-  svg.circular-indicator:not(.inline) {
+  svg.circular-indicator {
     height: 50px;
     width: 50px;
-  }
-
-  svg.circular-indicator.inline {
-    height: 11px;
-    width: 11px;
   }
 
   &.is-hidden {
@@ -203,12 +237,14 @@ input + .loading-indicator-container,
   }
 
   .loading-indicator {
+    align-items: center;
     background-color: transparent;
+    display: flex;
     height: 22px;
+    justify-content: center;
     margin: 6px 1px 1px;
     position: absolute;
     right: 0;
-    width: 40px;
   }
 }
 

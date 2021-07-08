@@ -9,7 +9,15 @@
   <div class="one-half column">
     <div class="field">
       <label class="label" for="loading-input">Loading Input Field</label>
-      <input class="loading" type="text" id="loading-input" data-options="{ 'blockUI': false, 'displayDelay': 100, 'timeToComplete': 4000 }"/>
+      <input
+        class="loading"
+        type="text"
+        id="loading-input"
+        data-options="{
+          'blockUI': false,
+          'displayDelay': 100,
+          'timeToComplete': 60000
+        }"/>
     </div>
     <div class="field">
       <button class="btn-secondary" id="trigger-loading-input" type="button">Load</button>
@@ -19,7 +27,15 @@
   <div class="one-half column">
     <div class="field">
       <label class="label" for="loading-dropdown">Loading Dropdown</label>
-      <select class="dropdown loading" id="loading-dropdown" data-options="{ 'blockUI': false, 'displayDelay': 100, 'timeToComplete': 4000 }">
+      <select
+        class="dropdown loading"
+        id="loading-dropdown"
+        data-options="{
+          'blockUI': false,
+          'displayDelay': 100,
+          'timeToComplete': 60000
+        }"
+      >
         <option selected="true">Loading</option>
         <option>Preoccupied</option>
         <option>Distracted</option>

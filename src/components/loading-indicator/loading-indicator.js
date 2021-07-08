@@ -1,6 +1,5 @@
 import * as debug from '../../utils/debug';
 import { utils } from '../../utils/utils';
-import { Locale } from '../locale/locale';
 
 // The Name of this component.
 const COMPONENT_NAME = 'loading-indicator';
@@ -31,7 +30,8 @@ const LOADING_INDICATOR_DEFAULTS = {
   overlayOnly: false,
   attributes: null,
   type: 'circular',
-  progress: undefined
+  progress: undefined,
+  inline: false
 };
 
 const getPercentageTextHtml = ({ progress, type = 'circular' }) => (
@@ -68,13 +68,15 @@ LoadingIndicator.prototype = {
     const progress = this.element.attr('data-progress');
     const delay = this.element.attr('data-display-delay');
     const completionTime = this.element.attr('data-completion-time');
+    const inline = this.element.attr('data-inline');
 
     this.blockUI = blockUI !== undefined ? blockUI : this.settings.blockUI;
     this.type = type !== undefined ? type : this.settings.type;
     this.progress = progress !== undefined ? progress : this.settings.progress;
+    this.inline = inline !== undefined ? inline : this.settings.inline;
 
     if (!this.settings.overlayOnly) {
-      this.loadingText = this.settings.text ? this.settings.text : Locale.translate('Loading');
+      this.loadingText = this.settings.text ? this.settings.text : undefined;
 
       // Support updating the label while open
       if (this.label) {
@@ -82,7 +84,7 @@ LoadingIndicator.prototype = {
       }
     }
 
-    const isDelayDefined = delay !== undefined && !isNaN(delay) && parseInt(delay, 10) > 20;
+    const isDelayDefined = (delay !== undefined && !isNaN(delay)) && (parseInt(delay, 10) > 20);
     const displayDelay = (!isNaN(this.settings.displayDelay) &&
         this.settings.displayDelay >= 20) ? this.settings.displayDelay : 20;
 
@@ -111,8 +113,11 @@ LoadingIndicator.prototype = {
         clearTimeout(self.closeTimeout);
       }
       this.label.remove();
+
       if (!this.settings.overlayOnly) {
-        this.label = $(`<span>${this.loadingText}</span>`).appendTo(this.container);
+        if (typeof this.loadingText === 'string') {
+          this.label = $(`<span>${this.loadingText}</span>`).appendTo(this.container);
+        }
 
         if (this.element.is('input, .dropdown, .multiselect, .loading-xs, .loading-sm')) {
           this.label.addClass('audible');
@@ -176,8 +181,8 @@ LoadingIndicator.prototype = {
               xmlns="http://www.w3.org/2000/svg"
               class="${loaderClass}"
             >
-              <circle cx="50" cy="50" r="45" stroke-width="${this.inline ? 8 : 4}" class="overall" />
-              <circle cx="50" cy="50" r="45" stroke-width="${this.inline ? 18 : 7}" class="progress" />
+              <circle cx="50" cy="50" r="45" class="overall" />
+              <circle cx="50" cy="50" r="45" class="progress" />
             </svg>
             ${!this.percentageVisible ? '' : getPercentageTextHtml({ progress: this.progress })}
             `).appendTo(this.loader);
@@ -185,7 +190,9 @@ LoadingIndicator.prototype = {
         }
       }
 
-      this.label = $(`<span>${this.loadingText}</span>`).appendTo(this.container);
+      if (typeof this.loadingText === 'string') {
+        this.label = $(`<span>${this.loadingText}</span>`).appendTo(this.container);
+      }
     }
 
     let transparency = '';
