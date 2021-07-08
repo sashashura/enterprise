@@ -1,16 +1,15 @@
 // Loading Indicator
 //================================================== //
 
-$loading-indicator-size: 64px;
 $loading-indicator-color: $button-color-primary-initial-background;
 $loading-indicator-check-color: $inverse-color;
-
-$progress-color: #0054b1; // azure-80
-$overall-color: #e6f1fd;
 
 .loading-indicator-container {
   @include opacity(1);
   @include transition(opacity 500ms);
+
+  --progress-color: #0054b1;
+  --overall-color: #e6f1fd;
 
   display: inline-block;
   text-align: center;
@@ -38,23 +37,127 @@ $overall-color: #e6f1fd;
   }
 }
 
+@keyframes indeterminate-spinner-progress-anim {
+  0%,
+  15% {
+    stroke-dashoffset: 272;
+    transform: rotate(0);
+  }
+
+  60% {
+    stroke-dashoffset: 80;
+    transform: rotate(45deg);
+  }
+
+  65% {
+    stroke-dashoffset: 80;
+    transform: rotate(45deg);
+  }
+
+  100% {
+    stroke-dashoffset: 272;
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes indeterminate-spinner-anim {
+  0% {
+    transform: rotateZ(0deg);
+  }
+
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+
+svg.circular-indicator.indeterminate .progress {
+  animation: 1.52s linear infinite both indeterminate-spinner-progress-anim;
+}
+
+svg.circular-indicator.indeterminate {
+  animation: 2.4s linear infinite indeterminate-spinner-anim;
+}
+
+svg.linear-indicator.indeterminate .progress {
+  animation: 2.8s linear infinite both indeterminate-linear-progress-anim;
+}
+
+@keyframes indeterminate-linear-progress-anim {
+  0% {
+    transform: scaleX(0%) translateX(0%);
+  }
+
+  3.125%,
+  53.125% {
+    transform: scaleX(20%) translateX(0%);
+  }
+
+  6.25% {
+    transform: scaleX(30%) translateX(20%);
+  }
+
+  12.5%,
+  62.5% {
+    transform: scaleX(45%) translateX(60%);
+  }
+
+  25%,
+  75% {
+    transform: scaleX(100%) translateX(100%);
+  }
+
+  25.0000001%,
+  50%,
+  75.0000001%,
+  100% {
+    transform: scaleX(0%) translateX(0);
+  }
+}
+
 .loading-indicator {
   @include opacity(1);
 
   display: inline-block;
-  height: $loading-indicator-size;
   margin: 2px;
   position: relative;
   vertical-align: middle;
-  width: $loading-indicator-size;
+
+  svg.circular-indicator {
+    align-items: center;
+    display: flex;
+    fill: transparent;
+    justify-content: center;
+    overflow: visible;
+    position: relative;
+    transform: rotateZ(-90deg);
+    transform-origin: 50% 50%;
+
+    circle {
+      transform-origin: 50% 50%;
+    }
+
+    .overall {
+      stroke: var(--overall-color);
+    }
+
+    .progress {
+      stroke: var(--progress-color);
+      stroke-dasharray: 283;
+    }
+  }
+
+  svg.circular-indicator:not(.inline) {
+    height: 50px;
+    width: 50px;
+  }
+
+  svg.circular-indicator.inline {
+    height: 11px;
+    width: 11px;
+  }
 
   &.is-hidden {
     @include opacity(0);
-  }
-
-  &.circular:not(.is-hidden) {
-    --progress-color: #0054b1;
-    --overall-color: #e6f1fd;
   }
 }
 
@@ -123,24 +226,6 @@ input + .loading-indicator-container,
   }
 }
 
-.ie9 {
-  .loading-indicator {
-    /* TODO */
-  }
-}
-
-// bump everything up 1px because Firefox
-.is-firefox {
-  input + .loading-indicator-container,
-  .dropdown-wrapper > .loading-indicator-container {
-    position: absolute;
-
-    .loading-indicator {
-      margin: 7px 5px 1px;
-    }
-  }
-}
-
 .loading-xs {
   min-height: 20px;
   min-width: 20px;
@@ -184,25 +269,12 @@ body {
 
 // RTL Styles
 html[dir='rtl'] {
-  .loading-indicator {
-  }
-
   // Display changes based on host element type
   input + .loading-indicator-container,
   .dropdown-wrapper > .loading-indicator-container {
     .loading-indicator {
       left: 0;
       right: auto;
-    }
-  }
-
-  .loading-xs {
-    .loading-indicator {
-    }
-  }
-
-  .loading-sm {
-    .loading-indicator {
     }
   }
 }

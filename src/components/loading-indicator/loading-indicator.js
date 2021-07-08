@@ -21,8 +21,6 @@ const COMPONENT_NAME = 'loading-indicator';
  * @param {string} [settings.overlayOnly=false] If true, the loading indicator will only be the overlay.
  * @param {string} [settings.attributes=null] Add extra attributes like id's to the element. e.g. `attributes: { name: 'id', value: 'my-unique-id' }`
  *
- *
- *
  */
 const LOADING_INDICATOR_DEFAULTS = {
   blockUI: true,
@@ -142,7 +140,7 @@ LoadingIndicator.prototype = {
         case 'linear': {
           let loaderClass = 'linear-indicator';
           loaderClass += this.type === 'sticky' ? ' sticky' : '';
-          loaderClass += ` ${(typeof this.progress !== 'number') ? 'in' : 'determinate'}`;
+          loaderClass += ` ${(typeof this.progress !== 'number') ? 'in' : ''}determinate`;
           loaderClass += this.inline ? ' inline' : '';
 
           const overallYOffset = `y="${this.type === 'sticky' ? '0' : '12.5'}%"`;
@@ -150,22 +148,18 @@ LoadingIndicator.prototype = {
           $(
             `<svg
             xmlns="http://www.w3.org/2000/svg"
-            ${loaderClass}
-            part="container"
-            class="ids-loading-indicator"
+            class="${loaderClass}"
           >
             <rect
               width="100%"
               height="75%"
               ${overallYOffset}
               class="overall"
-              part="overall"
             />
             <rect
               width="100%"
               height="100%"
               class="progress"
-              part="progress"
             />
           </svg>`
           ).appendTo(this.loader);
@@ -174,21 +168,19 @@ LoadingIndicator.prototype = {
         default:
         case 'circular': {
           let loaderClass = 'circular-indicator';
-          loaderClass += ` ${(typeof this.progress !== 'number') ? 'in' : 'determinate'}`;
+          loaderClass += ` ${(typeof this.progress !== 'number') ? 'in' : ''}determinate`;
           loaderClass += this.inline ? ' inline' : '';
 
           $(`<svg
               viewbox="0 0 100 100"
               xmlns="http://www.w3.org/2000/svg"
-              ${classStr}
-              part="container"
-              class="ids-loading-indicator"
+              class="${loaderClass}"
             >
-              <circle cx="50" cy="50" r="45" stroke-width="${inline ? 8 : 4}" class="overall" part="overall" />
-              <circle cx="50" cy="50" r="45" stroke-width="${inline ? 18 : 7}" class="progress" part="progress" />
+              <circle cx="50" cy="50" r="45" stroke-width="${this.inline ? 8 : 4}" class="overall" />
+              <circle cx="50" cy="50" r="45" stroke-width="${this.inline ? 18 : 7}" class="progress" />
             </svg>
-            ${!percentageVisible ? '' : getPercentageTextHtml({ progress: this.progress }) }`
-          );`).appendTo(this.loader);
+            ${!this.percentageVisible ? '' : getPercentageTextHtml({ progress: this.progress })}
+            `).appendTo(this.loader);
           break;
         }
       }
