@@ -1524,6 +1524,14 @@ Dropdown.prototype = {
 
           e.preventDefault();
 
+          if (this.searchInput.val().length === 0 && this.value.length > 0) {
+            self.selectBlank();
+            // Prevent Backspace from returning to the previous page.
+            e.stopPropagation();
+            e.preventDefault();
+            return false;  //eslint-disable-line
+          }
+
           if (options.length && selectedIndex > -1) {
             // store the current selection
             const li = $(options[selectedIndex]);
