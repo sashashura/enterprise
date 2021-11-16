@@ -1,6 +1,13 @@
 <div class="row">
   <div class="twelve columns">
-    <div id="datagrid">
+    <div id="tabs-normal" class="tab-container">
+      <ul class="tab-list">
+        <li class="tab is-selected"><a href="#tabs-normal-contracts">Contracts</a></li>
+      </ul>
+      <div id="tabs-normal-contracts" class="tab-panel">
+        <div id="datagrid">
+        </div>
+			</div>
     </div>
   </div>
 </div>
@@ -28,7 +35,9 @@
                       {id:'Error', value:'Error', label:'Error'}];
 
       var activities = [{id: 'Assemble Paint', value:'Assemble Paint', label: 'Assemble Paint'},
-                         {id: 'Inspect and Repair', value:'Inspect and Repair', label: 'Inspect and Repair'}];
+                         {id: 'Inspect and Repair', value:'Inspect and Repair', label: 'Inspect and Repair'},
+                         {id: 'Map', value:'Map', label: 'Map'},
+                         {id: 'Assign To', value:'Assign To', label: 'Assign To'},];
 
     var lookupOptions = {
       field: function (row, field, grid) {
@@ -47,7 +56,7 @@
         });
       },
       options: {
-        selectable: 'single',
+        selectable: 'multiple',
         toolbar: {title: 'Products', results: true, dateFilter: false ,keywordFilter: false, actions: true, views: true , rowHeight: true}
       }
     };
