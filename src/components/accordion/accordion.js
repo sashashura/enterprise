@@ -42,7 +42,7 @@ const ACCORDION_DEFAULTS = {
   expanderDisplay: expanderDisplayModes[0],
   enableTooltips: true,
   rerouteOnLinkClick: true,
-  badge: false,
+  notificationBadge: false,
   source: null
 };
 
@@ -302,7 +302,7 @@ Accordion.prototype = {
     if (!noFilterReset) {
       this.currentlyFiltered = $();
     }
- 
+
     this.createNotificationBadge();
 
     return this;
@@ -313,24 +313,25 @@ Accordion.prototype = {
     * @returns {void}
     */
   createNotificationBadge() {
-    if (!this.settings.badge) {
+    if (!this.settings.notificationBadge) {
       return;
     }
 
     this.element.find('.accordion-header').each((index, val) => {
       const headerEl = $(val);
-      const headerData = headerEl.data();
 
-      headerEl.notificationbadge({
-        position: headerData.options.position,
-        color: headerData.options.color,
-        badge: this.settings.badge
-      });
+      if (headerEl.children('.notification-badge-container').length < 1) {
+        const headerData = headerEl.data();
+        headerEl.notificationbadge({
+          position: headerData.options.position,
+          color: headerData.options.color
+        });
 
-      const icon = headerEl.find('.icon');
-      const badgeEl = headerEl.find('.notification-badge-container');
-      badgeEl.prepend(icon);
-      headerEl.prepend(badgeEl);
+        const icon = headerEl.find('.icon');
+        const badgeEl = headerEl.find('.notification-badge-container');
+        badgeEl.prepend(icon);
+        headerEl.prepend(badgeEl);
+      }
     });
   },
 
@@ -895,14 +896,11 @@ Accordion.prototype = {
           dfd.resolve();
         });
         pane.triggerHandler('afterexpand', [a]);
+        pane.css('height', 'auto');
         self.element.trigger('afterexpand', [a]);
       }
 
-      if (pane.hasClass('no-transition')) {
-        handleAfterExpand();
-      } else {
-        pane.one('animateopencomplete', handleAfterExpand).animateOpen();
-      }
+      handleAfterExpand();
     }
 
     // Load from an external source, if applicable
@@ -1006,12 +1004,7 @@ Accordion.prototype = {
       dfd.resolve();
     }
 
-    if (pane.hasClass('no-transition')) {
-      handleAfterCollapse();
-    } else {
-      pane.one('animateclosedcomplete', handleAfterCollapse).animateClosed();
-    }
-
+    handleAfterCollapse();
     return dfd;
   },
 
@@ -1325,7 +1318,7 @@ Accordion.prototype = {
     const toFilter = targets.not(this.currentlyFiltered);
 
     // Store a list of all modified parent headers
-    let allParentHeaders = $();
+    const allTempHeaders = [];
     const allContentAreas = $();
 
     // Perform filtering
@@ -1338,20 +1331,28 @@ Accordion.prototype = {
       if (isContentArea) {
         allContentAreas.push($(target));
         const thisParentPane = $(allParentPanes[0]);
-        const thisParentHeader = thisParentPane.prev('.accordion-header').filter((j, item) => allParentHeaders.index(item) === -1);
-        if (thisParentHeader.length) {
-          allParentHeaders = allParentHeaders.add(thisParentHeader);
-        }
+        thisParentPane.prev('.accordion-header').each((index, val) => {
+          if (allTempHeaders.indexOf(val) < 0) {
+            allTempHeaders.push(val);
+          }
+          return allTempHeaders;
+        });
       }
 
       // Handle Labeling of Parent Headers
       if (allParentPanes.length) {
-        const parentHeaders = allParentPanes.prev('.accordion-header').filter((j, item) => allParentPanes.index(item) === -1);
-        allParentHeaders = allParentHeaders.add(parentHeaders);
+        allParentPanes.prev('.accordion-header').each((index, val) => {
+          if (allTempHeaders.indexOf(val) < 0) {
+            allTempHeaders.push(val);
+          }
+          return allTempHeaders;
+        });
       }
     });
 
+    const allParentHeaders = $(allTempHeaders);
     allParentHeaders.addClass('has-filtered-children');
+
     const expandPromise = this.expand(allParentHeaders, true);
 
     $.when(expandPromise).done(() => {
@@ -1377,7 +1378,7 @@ Accordion.prototype = {
     }
 
     // Store a list of all modified parent headers
-    let allParentHeaders = $();
+    const allTempHeaders = [];
 
     // Reset all the things
     this.headers.removeClass('filtered has-filtered-children hide-focus');
@@ -1387,11 +1388,16 @@ Accordion.prototype = {
     headers.each((i, header) => {
       const parentPanes = $(header).parents('.accordion-pane');
       if (parentPanes.length) {
-        const parentHeaders = parentPanes.prev('.accordion-header').filter((j, item) => allParentHeaders.index(item) === -1);
-        allParentHeaders = allParentHeaders.add(parentHeaders);
+        parentPanes.prev('.accordion-header').each((index, val) => {
+          if (allTempHeaders.indexOf(val) < 0) {
+            allTempHeaders.push(val);
+          }
+          return allTempHeaders;
+        });
       }
     });
 
+    const allParentHeaders = $(allTempHeaders);
     allParentHeaders.removeClass('has-filtered-children');
 
     const collapseDfds = [
@@ -1624,6 +1630,8 @@ Accordion.prototype = {
         self.updated(settings);
       });
     }
+
+    this.element.trigger('rendered');
 
     return this;
   },

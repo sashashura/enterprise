@@ -27,6 +27,10 @@
 
 // For Cards selection that uses .cards as parent class
 .cards {
+  &.single .card.is-selectable:focus-visible {
+    @include focus-state();
+  }
+
   .card {
     cursor: pointer;
 
@@ -86,18 +90,19 @@
 
   &.card-variant {
     @include auto-height;
+
     align-items: center;
     display: flex;
     flex-flow: nowrap;
     justify-content: space-between;
 
     .card-image {
-      padding: 15px 0px 15px 15px;
+      padding: 15px 0 15px 15px;
       flex: 0 0 auto;
     }
 
     .card-content {
-      padding: 15px;
+      padding: 15px 16px;
 
       div {
         &.card-content-status {
@@ -189,7 +194,7 @@
 
         .btn-actions {
           border-radius: 50% !important;
-          margin-right: 24px;
+          margin-right: 8px;
           transform: rotate(90deg);
           width: 44px;
           height: 44px;
@@ -243,7 +248,7 @@
           margin: 0 auto;
           width: 150px;
 
-          @media only screen and (max-width: $breakpoint-tablet-reduced - 16px) {
+          @media only screen and (max-width: ($breakpoint-tablet-reduced - 16px)) {
             width: unset;
           }
         }
@@ -486,7 +491,6 @@
   }
 
   &:not(.has-toolbar) {
-
     > .btn-actions,
     > .btn-expander {
       line-height: normal;
@@ -561,7 +565,6 @@
     a {
       margin: 2px 4px 0;
     }
-
   }
 }
 
@@ -577,7 +580,6 @@
   &.alternate {
     background-color: $body-color-primary-background;
   }
-
 }
 
 .card-list-item-thumbnail {
@@ -663,11 +665,33 @@
   padding: 0 0 32px;
 }
 
+// Actionable Button Card
+button,
+a {
+  &.btn.card {
+    min-height: 50px;
+
+    &:focus {
+      &:not(.hide-focus) {
+        box-shadow: 0 0 0 2px $body-color-primary-background, 0 0 0 3px $button-color-secondary-focus-border, $focus-box-shadow;
+      }
+    }
+  }
+}
+
+a {
+  &.btn.card {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+}
+
 // RTL Styles
 html[dir='rtl'] {
   .card-header,
   .widget-header {
-
     > h2,
     > h1,
     > button {
@@ -700,7 +724,6 @@ html[dir='rtl'] {
 
   .card-content,
   .widget-content {
-
     .card-group-action,
     .widget-group-action {
       padding: 0 20px 0 10px;

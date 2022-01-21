@@ -74,10 +74,6 @@
     top: 50%;
     transform: translateY(-50%);
 
-    @media only screen and (max-width: $breakpoint-phone-to-tablet) {
-      margin-right: 38px;
-    }
-
     & > svg.close.icon {
       position: relative;
       top: -1px;
@@ -135,10 +131,6 @@ html.is-firefox {
       .icon:not(.close) {
         top: 8px;
       }
-
-      .icon.close {
-        top: 11px;
-      }
     }
 
     .collapse-button {
@@ -153,7 +145,7 @@ html.is-firefox {
 
         @media only screen and (max-width: $breakpoint-phone-to-tablet) {
           margin-right: 5px;
-        }  
+        }
       }
     }
 
@@ -174,6 +166,16 @@ html[dir='rtl'] {
       &.close {
         left: 8px;
         right: auto;
+      }
+    }
+
+    &.has-close-icon-button.has-text {
+      .btn-icon.close {
+        top: 7px;
+
+        svg.close.icon {
+          top: 0;
+        }
       }
     }
 
@@ -200,4 +202,3 @@ html[dir='rtl'] {
     }
   }
 }
-

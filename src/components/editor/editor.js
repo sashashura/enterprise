@@ -857,7 +857,7 @@ Editor.prototype = {
     // Open link in new windows/tab, if clicked with command-key(for mac) or ctrl-key(for windows)
     this.element.on('mousedown.editor', 'a', function (e) {
       const href = $(this).attr('href');
-      if (env.browser.name !== 'firefox' && (env.os.name === 'Mac OS X' && (e.metaKey || e.ctrlKey))) {
+      if (env.browser.name !== 'firefox' && (env.os.name === 'mac' && (e.metaKey || e.ctrlKey))) {
         window.open(href, '_blank');
         e.preventDefault();
       }
@@ -1049,7 +1049,7 @@ Editor.prototype = {
 
       separator: '<div class="separator"></div>',
 
-      anchor: `<button type="button" class="btn btn-editor" title="${Locale.translate('InsertAnchor')}" data-action="anchor" data-modal="modal-url-${this.id}" data-element="a">${buttonLabels.anchor}</button>`,
+      anchor: `<button type="button" class="btn btn-editor" title="${Locale.translate('InsertHyperlink')}" data-action="anchor" data-modal="modal-url-${this.id}" data-element="a">${buttonLabels.anchor}</button>`,
 
       image: `<button type="button" class="btn btn-editor" title="${Locale.translate('InsertImage')}" data-action="image" data-modal="modal-image-${this.id}" data-element="img">${buttonLabels.image}</button>`,
 
@@ -1094,7 +1094,7 @@ Editor.prototype = {
       strikethrough: this.getIcon('StrikeThrough', 'strike-through'),
       foreColor: this.getIcon('TextColor', 'fore-color'),
       backColor: this.getIcon('BackgroundColor', 'back-color'),
-      anchor: this.getIcon('InsertAnchor', 'link'),
+      anchor: this.getIcon('InsertHyperlink', 'link'),
       image: this.getIcon('InsertImage', 'insert-image'),
       header1: this.getIcon('ToggleH3', 'h3'),
       header2: this.getIcon('ToggleH4', 'h4'),
@@ -1264,7 +1264,11 @@ Editor.prototype = {
             self.createLink($(`[name="em-url-${self.id}"]`, this));
           }
         } else {
-          self.insertImage($(`#image-${self.id}`).val());
+          if (self.settings.attributes.length > 1) { // eslint-disable-line
+            self.insertImage($(`[data-automation-id="${self.settings.attributes[self.settings.attributes.length - 1].value}-editor-modal-input0"`).val());
+          } else {
+            self.insertImage($(`#${self.settings.attributes[0].value}-editor-modal-input0`).val());
+          }
         }
       });
 
@@ -1312,7 +1316,7 @@ Editor.prototype = {
     const output = $(`<div class="modal editor-modal-url" id="modal-url-${this.id}"></div>`)
       .html(`<div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title">${Locale.translate('InsertAnchor')}</h1>
+          <h1 class="modal-title">${Locale.translate('InsertHyperlink')}</h1>
         </div>
         <div class="modal-body">
           <div class="field">

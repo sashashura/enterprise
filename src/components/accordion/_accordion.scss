@@ -61,7 +61,6 @@
 
   // Reset the padding for various things when we have icons present
   &.has-icons {
-
     // Level 1
     > .accordion-header {
       > a {
@@ -449,7 +448,6 @@
           p {
             color: inherit;
           }
-
         }
       }
     }
@@ -523,6 +521,10 @@
 
   > [class^='btn'] {
     @include btn-chevron-style;
+
+    width: 44px;
+    height: 44px;
+    margin: unset;
   }
 
   > [class^='btn'],
@@ -544,7 +546,7 @@
 
     + a {
       width: calc(100% - 56px);
-      padding: 9px 0px 7px !important;
+      padding: 9px 0 7px !important;
     }
 
     .notification-dot {
@@ -554,21 +556,21 @@
         transform: scale(1) translate(50%, -50%);
         transform-origin: 100% 0%;
       }
-  
+
       &.notification-dot-upper-left {
         top: 3px;
         left: 3px;
         transform: scale(1) translate(-50%, -50%);
         transform-origin: 0% 0%;
       }
-  
+
       &.notification-dot-lower-right {
         top: 9px;
         left: 9px;
         transform: scale(1) translate(50%, 50%);
         transform-origin: 100% 100%;
       }
-  
+
       &.notification-dot-lower-left {
         top: 9px;
         left: 3px;
@@ -580,7 +582,7 @@
 
   // NOT the same as the above rule.
   > .icon {
-    margin: 0 18px;
+    margin: 0 16px;
 
     + a {
       width: calc(100% - 56px);
@@ -624,7 +626,7 @@
 
     > .icon {
       + a {
-        width: calc(100% - 109px);
+        width: calc(100% - 104px);
       }
     }
   }

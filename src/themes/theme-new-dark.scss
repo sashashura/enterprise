@@ -14,6 +14,9 @@
 // Enterprise vars
 @import '../core/config';
 
+// Theme Overrides
+$body-color-primary-background: $ids-color-palette-slate-100;
+
 // Form Background Color
 $header-bg-color: $ids-color-brand-primary-base;
 $subhead-bg-color: $ids-color-brand-primary-alt;
@@ -123,13 +126,23 @@ $badge-alert-icon-color: $ids-color-palette-slate-60;
 $badge-alert-hover-icon-color: $ids-color-palette-slate-100;
 $badge-good-color: $ids-color-palette-slate-100;
 $badge-good-icon-color: $ids-color-palette-slate-60;
-$badge-good-hover-icon-color: $ids-color-palette-slate-100;
+$badge-good-hover-icon-color: $ids-color-palette-slate-60;
 $badge-info-color: $ids-color-palette-white;
 $badge-info-icon-color: $ids-color-palette-slate-30;
 $badge-info-hover-icon-color: $ids-color-palette-white;
 $badge-info-bg-color: $ids-color-brand-primary-base;
 $badge-neutral-icon-color: $ids-color-palette-slate-30;
 $badge-neutral-hover-icon-color: $ids-color-palette-white;
+$badge-error-bg-color: $ids-color-palette-ruby-50;
+$badge-good-bg-color: $ids-color-palette-emerald-50;
+$badge-alert-bg-color: $ids-color-palette-amber-50;
+
+// Status Colors
+$status-01-bg-color: $ids-color-palette-ruby-50;
+$status-02-bg-color: $ids-color-palette-amber-50;
+$status-03-bg-color: $ids-color-palette-amber-50;
+$status-04-bg-color: $ids-color-palette-emerald-50;
+$status-05-bg-color: $ids-color-palette-azure-60;
 
 // Cards
 $card-content-button-color: $ids-color-palette-slate-10;
@@ -158,9 +171,9 @@ $popupmenu-hover-color: $ids-color-palette-slate-80;
 $popupmenu-checked-color-inverse: $ids-color-brand-primary-base;
 
 // Secondary With Border
-$secondary-border-btn-color:  $ids-color-palette-slate-30;
+$secondary-border-btn-color: $ids-color-palette-slate-30;
 $secondary-border-btn-border-color: $ids-color-palette-slate-40;
-$secondary-border-btn-hover-color:  $ids-color-palette-white;
+$secondary-border-btn-hover-color: $ids-color-palette-white;
 $secondary-border-btn-hover-border-color: $ids-color-palette-white;
 $secondary-border-btn-ripple-color: $ids-color-palette-white;
 
@@ -175,7 +188,7 @@ $input-readonly-color: $input-color-readonly-font;
 $error-color: $ids-color-palette-ruby-50;
 $error-border-color: $ids-color-palette-ruby-50;
 $error-text-color: $ids-color-palette-white;
-$error-focus-box-shadow:  0 0 4px 2px rgba(222, 129, 129, 0.3);
+$error-focus-box-shadow: 0 0 4px 2px rgba(222, 129, 129, 0.3);
 $error-icon-fill: $ids-color-status-danger;
 $dirty-icon-fill: $ids-color-status-caution;
 $success-icon-fill: $ids-color-status-success;
@@ -344,12 +357,12 @@ $checkbox-color-disabled-font: $input-color-disabled-font;
 // Switch
 $radio-checked-color: $ids-color-brand-primary-base;
 $switch-checked-bg-color: $ids-color-palette-azure-30;
-$switch-unchecked-bg-color:  $ids-color-palette-white;
+$switch-unchecked-bg-color: $ids-color-palette-white;
 $switch-unchecked-bar-color: $ids-color-palette-slate-40;
 $switch-unchecked-border-color: $ids-color-palette-white;
 $switch-unchecked-color: $ids-color-palette-slate-50;
 $switch-unchecked-pressed-bg-color: $ids-color-palette-slate-40;
-$switch-checked-disabled-bar-color:  $ids-color-palette-azure-20;
+$switch-checked-disabled-bar-color: $ids-color-palette-azure-20;
 $switch-disabled-border-color: $ids-color-palette-slate-60;
 $switch-disabled-bg-color: $ids-color-palette-slate-70;
 $switch-disabled-bar-color: $ids-color-palette-slate-60;

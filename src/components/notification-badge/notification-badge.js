@@ -23,7 +23,6 @@ const NOTIFICATION_BADGE_DEFAULTS = {
  * @param {string} [settings] The settings element.
  * @param {string} [settings.position] The placement of notification badge.
  * @param {string} [settings.color] The color of the notification badge.
- * @param {string} [settings.icon] The icon to display.
  * @param {string} [settings.attributes] Add extra attributes like id's to the element e.g. `attributes: { name: 'id', value: 'my-unique-id' }`
  */
 
@@ -97,7 +96,7 @@ NotificationBadge.prototype = {
     * Enable a disabled badge.
     * @returns {void}
     */
-  enable() {
+  show() {
     this.element.find('.notification-dot').removeClass('is-disabled');
   },
 
@@ -105,7 +104,7 @@ NotificationBadge.prototype = {
     * Disable a badge.
     * @returns {void}
     */
-  disable() {
+  hide() {
     this.element.find('.notification-dot').addClass('is-disabled');
   },
 

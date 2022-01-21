@@ -84,6 +84,7 @@ const COMPONENT_NAME = 'datagrid';
  * @param {boolean}  [settings.stickyHeader=false] If true the data grid headers will stick to the top of the container the grid is in when scrolling down.
  * @param {boolean}  [settings.columnSizing='both'] Determines the sizing method for the auto sizing columns. Options are: both | data | header (including filter)
  * @param {boolean}  [settings.clickToSelect=true] Controls if using a selection mode if you can click the rows to select
+ * @param {boolean}  [settings.keyRowSelect=false] Controls if using a selection mode if you can use arrow keys to select rows
  * @param {object}   [settings.toolbar=false]  Toggles and appends various toolbar features for example `{title: 'Data Grid Header Title', results: true, keywordFilter: true, filter: true, rowHeight: true, views: true}`
  * @param {boolean}  [settings.selectChildren=true] Will prevent selecting of all child nodes on a multiselect tree.
  * @param {boolean}  [settings.allowSelectAcrossPages=null] Makes it possible to save selections when changing pages on server side paging. You may want to also use showSelectAllCheckBox: false
@@ -197,6 +198,7 @@ const DATAGRID_DEFAULTS = {
   columnSizing: 'all',
   twoLineHeader: false,
   clickToSelect: true,
+  keyRowSelect: false,
   toolbar: false,
   initializeToolbar: true, // can set to false if you will initialize the toolbar yourself
   columnIds: [],
@@ -1572,11 +1574,11 @@ Datagrid.prototype = {
               );
             }
           } else {
-            if (col.filterMaskOptions) {
+            if (col.filterMaskOptions && typeof col.filterMaskOptions !== 'function') {
               col.filterMaskOptions = utils.extend(true, {}, decimalDefaults, col.filterMaskOptions);
             }
 
-            if (col.maskOptions) {
+            if (col.maskOptions && typeof col.maskOptions !== 'function') {
               col.maskOptions = utils.extend(true, {}, decimalDefaults, col.maskOptions);
             }
           }
@@ -1656,6 +1658,8 @@ Datagrid.prototype = {
       const filterBtn = $(this);
       const popupOpts = { trigger: 'immediate', offset: { y: 15 }, placementOpts: { strategies: ['flip', 'nudge'] } };
       const popupmenu = filterBtn.data('popupmenu');
+      const rowElem = filterBtn.closest('th[role="columnheader"]');
+      let defaultOperator = '';
 
       if (popupmenu) {
         popupmenu.close(true, true);
@@ -1663,6 +1667,7 @@ Datagrid.prototype = {
         filterBtn.off('beforeopen.datagrid-filter').on('beforeopen.datagrid-filter', (e, menu, api) => {
           self.hideTooltip();
           activeMenu = api;
+          defaultOperator = rowElem.find('.btn-filter .icon-dropdown:first').getIconName().replace('filter-', '');
         }).popupmenu(popupOpts)
           .off('selected.datagrid-filter')
           .on('selected.datagrid-filter', () => {
@@ -1670,15 +1675,15 @@ Datagrid.prototype = {
             if (data) {
               data.destroy();
             }
+
             activeMenu = null;
-            const rowElem = filterBtn.closest('th[role="columnheader"]');
             const col = self.columnById(rowElem.attr('data-column-id'))[0];
+            const input = rowElem.find('input');
+            const svg = rowElem.find('.btn-filter .icon-dropdown:first');
+            const operator = svg.getIconName().replace('filter-', '');
 
             // Set datepicker and numbers filter with range/single
             if (col && /date|integer|decimal/.test(col.filterType)) {
-              const input = rowElem.find('input');
-              const svg = rowElem.find('.btn-filter .icon-dropdown:first');
-              const operator = svg.getIconName().replace('filter-', '');
               if (col.filterType === 'date') {
                 const datepickerOptions = col.editorOptions || {};
 
@@ -1708,6 +1713,17 @@ Datagrid.prototype = {
                 }
               }
             }
+
+            const lookupValue = input.val();
+            const columnId = rowElem.attr('data-column-id');
+            const options = {
+              operator,
+              defaultOperator,
+              value: lookupValue,
+              columnId
+            };
+
+            self.element.triggerHandler('filteroperatorchanged', [options]);
             self.applyFilter(null, 'selected');
           });
       }
@@ -4209,9 +4225,10 @@ Datagrid.prototype = {
    * @param  {object} columnDef The column settings.
    * @param  {object} rowData The current row data.
    * @param  {object} api The grid API reference.
+   * @param  {boolean} formatLocale Formatting for export or not.
    * @returns {void}
    */
-  formatValue(formatter, row, cell, fieldValue, columnDef, rowData, api) {
+  formatValue(formatter, row, cell, fieldValue, columnDef, rowData, api, formatLocale = false) {
     let formattedValue;
     api = api || this;
 
@@ -4221,10 +4238,10 @@ Datagrid.prototype = {
     }
 
     if (typeof formatter === 'string') {
-      formattedValue = Formatters[formatter](row, cell, fieldValue, columnDef, rowData, api);
+      formattedValue = Formatters[formatter](row, cell, fieldValue, columnDef, rowData, api, formatLocale);
       formattedValue = formattedValue.toString();
     } else {
-      formattedValue = formatter(row, cell, fieldValue, columnDef, rowData, api).toString();
+      formattedValue = formatter(row, cell, fieldValue, columnDef, rowData, api, formatLocale).toString();
     }
     return formattedValue;
   },
@@ -4239,9 +4256,10 @@ Datagrid.prototype = {
    * @param  {object} isFooter If true we are building a footer row.
    * @param  {string} actualIndexLineage Series of actualIndex values to reach a child actualIndex in a tree
    * @param  {boolean} skipChildren If true we dont append children.
+   * @param  {boolean} formatLocale For exporting, format numbers and dates to locale or not.
    * @returns {string} The html used to construct the row.
    */
-  rowHtml(rowData, dataRowIdx, actualIndex, isGroup, isFooter, actualIndexLineage, skipChildren) {
+  rowHtml(rowData, dataRowIdx, actualIndex, isGroup, isFooter, actualIndexLineage, skipChildren, formatLocale = false) {
     let isEven = false;
     const self = this;
     const isSummaryRow = this.settings.summaryRow && !isGroup && isFooter;
@@ -4411,7 +4429,8 @@ Datagrid.prototype = {
         self.fieldValue(rowData, self.settings.columns[j].field),
         self.settings.columns[j],
         rowData,
-        self
+        self,
+        formatLocale
       );
 
       if (formatted.indexOf('<span class="is-readonly">') === 0) {
@@ -5940,9 +5959,10 @@ Datagrid.prototype = {
   * @param {string} fileName The desired export filename in the download.
   * @param {string} customDs An optional customized version of the data to use.
   * @param {string} separator (optional) If user's machine is configured for a locale with alternate default separator.
+  * @param {boolean} format Format numbers and dates based on locale
   */
-  exportToCsv(fileName, customDs, separator) {
-    excel.exportToCsv(fileName, customDs, separator, this);
+  exportToCsv(fileName, customDs, separator, format = false) {
+    excel.exportToCsv(fileName, customDs, separator, format, this);
   },
 
   /**
@@ -5952,9 +5972,10 @@ Datagrid.prototype = {
   * @param {string} fileName The desired export filename in the download.
   * @param {string} worksheetName A name to give the excel worksheet tab.
   * @param {string} customDs An optional customized version of the data to use.
+  * @param {boolean} format Format numbers and dates based on locale
   */
-  exportToExcel(fileName, worksheetName, customDs) {
-    excel.exportToExcel(fileName, worksheetName, customDs, this);
+  exportToExcel(fileName, worksheetName, customDs, format = false) {
+    excel.exportToExcel(fileName, worksheetName, customDs, format, this);
   },
 
   copyToDataSet(pastedValue, rowCount, colIndex, dataSet) {
@@ -5991,7 +6012,7 @@ Datagrid.prototype = {
         modal.element.find('.searchfield').searchfield({ clearable: true, tabbable: false });
         modal.element.find('.listview')
           .listview({
-            source: this.settings.columns,
+            source: self.settings.columns,
             template: `
             <ul>
             {{#dataset}}
@@ -6579,6 +6600,11 @@ Datagrid.prototype = {
 
           if (!rowNodes.hasClass('is-active-row')) {
             rowNodes.addClass('is-active-row');
+            const index = self.actualRowIndex(rowNodes);
+
+            if (self.settings.keyRowSelect) {
+              self.selectRow(index);
+            }
           }
         }
       })
@@ -7314,6 +7340,10 @@ Datagrid.prototype = {
         menu.append(`<li><a href="#" data-option="export-to-excel">${Locale.translate('ExportToExcel')}</a></li>`);
       }
 
+      if (this.settings.toolbar.exportToCsv) {
+        menu.append(`<li><a href="#" data-option="export-to-csv">${Locale.translate('ExportToCsv')}</a></li>`);
+      }
+
       if (this.settings.toolbar.advancedFilter) {
         menu.append(`<li><a href="#">${Locale.translate('AdvancedFilter')}</a></li>`);
       }
@@ -7402,6 +7432,10 @@ Datagrid.prototype = {
 
       if (action === 'export-to-excel') {
         self.exportToExcel();
+      }
+
+      if (action === 'export-to-csv') {
+        self.exportToCsv();
       }
 
       // Filter actions
@@ -9206,6 +9240,13 @@ Datagrid.prototype = {
         handled = true;
       }
 
+      // If datagrid is in modal, close modal on Escape key
+      const modalParent = self.element.parents('.modal');
+      if (key === 27 && modalParent.length !== 0) {
+        const modalApi = modalParent.data().modal;
+        modalApi.close();
+      }
+
       if (handled) {
         e.preventDefault();
         e.stopPropagation();
@@ -9761,9 +9802,14 @@ Datagrid.prototype = {
       if (isEditor) {
         cellNode.css({ position: 'static', height: cellNode.outerHeight() });
       }
+
       cellParent.addClass('is-editing');
 
-      cellNode.empty();
+      if (this.isFileUpload) {
+        this.isFileUpload = false;
+      } else {
+        cellNode.empty();
+      }
     } else {
       cellParent.addClass('is-editing-inline');
     }
@@ -9883,17 +9929,44 @@ Datagrid.prototype = {
 
     const input = this.editor.input;
     let newValue;
-    let cellNode;
     const editorName = this.getEditorName(this.editor);
     const isEditor = editorName === 'editor';
     const isFileupload = editorName === 'fileupload';
     const isUseActiveRow = !(input.is('.timepicker, .datepicker, .lookup, .spinbox, .colorpicker'));
 
-    // Editor.getValue
-    if (typeof this.editor.val === 'function') {
-      newValue = this.editor.val();
+    if (isFileupload) {
+      if (typeof this.editor.val === 'function') {
+        newValue = this.editor.val();
+      }
+      Promise.resolve(newValue).then((v) => {
+        this.commitCellEditUtil(input, v, isEditor, isFileupload, isUseActiveRow, isCallback);
+        this.isFileUpload = true;
+      });
+    } else {
+      // Editor.getValue
+      if (typeof this.editor.val === 'function') {
+        newValue = this.editor.val();
+      }
+      this.commitCellEditUtil(input, newValue, isEditor, isFileupload, isUseActiveRow, isCallback);
+    }
+  },
+
+  /**
+   * Utility function to commit cell edit
+   * @private
+   * @param {any} input editor input
+   * @param {any} newValue new value to be put in cell
+   * @param {boolean} isEditor check if cell is editor
+   * @param {boolean} isFileupload check if cell is file upload
+   * @param {boolean} isUseActiveRow check if active row
+   * @param {boolean} isCallback Indicates a call back so beforeCommitCellEdit is not called.
+   */
+  commitCellEditUtil(input, newValue, isEditor, isFileupload, isUseActiveRow, isCallback) {
+    if (!this.editor) {
+      return;
     }
 
+    let cellNode;
     if (isEditor) {
       cellNode = this.editor.td;
     } else if (isFileupload) {
@@ -9971,14 +10044,14 @@ Datagrid.prototype = {
     * @memberof Datagrid
     * @property {object} event The jquery event object
     * @property {object} args Additional arguments
-    * @property {number} args.row An array of selected rows.
-    * @property {number} args.cell An array of selected rows.
-    * @property {object} args.item The current sort column.
-    * @property {HTMLElement} args.target The cell html element that was entered.
-    * @property {any} args.value The cell value.
-    * @property {any} args.oldValue The previous cell value.
+    * @property {number} args.row The row that exited edit mode
+    * @property {number} args.cell The cell that exited edit mode
+    * @property {object} args.item The data for the row that exited edit mode
+    * @property {HTMLElement} args.target The cell html element that was entered
+    * @property {any} args.value The current cell value
+    * @property {any} args.oldValue The previous cell value
     * @property {object} args.column The column object
-    * @property {object} args.editor The editor object.
+    * @property {object} args.editor The editor object
     */
     this.element.triggerHandler('exiteditmode', [{
       row: rowIndex,
@@ -12075,9 +12148,25 @@ Datagrid.prototype = {
    * @param  {number} row The rowindex
    * @param  {number} cell The cell index
    * @param  {any} value The data value
+   * @param  {number} col The column index
+   * @param  {number} item The item index
+   * @param  {any} api The datagrid api
+   * @param  {any} formatLocale Format numbers and date to local or not
    * @returns {string} The html string
    */
-  defaultFormatter(row, cell, value) {
+  defaultFormatter(row, cell, value, col, item, api, formatLocale = false) {
+    if (formatLocale) {
+      const numVal = parseFloat(value);
+      if (!isNaN(numVal)) {
+        value = Locale.formatNumber(numVal, { style: Number.isInteger(numVal) ? 'integer' : 'decimal' });
+      } else {
+        const dateVal = Date.parse(value);
+        if (!isNaN(dateVal)) {
+          value = Locale.formatDate(dateVal);
+        }
+      }
+    }
+
     return ((value === null || value === undefined || value === '') ? '' : value.toString());
   },
 
@@ -12376,7 +12465,7 @@ Datagrid.prototype = {
       const tooltip = $(this.tooltip);
       const tooltipContentEl = this.tooltip.querySelector('.tooltip-content');
       if (tooltipContentEl) {
-        tooltipContentEl.innerHTML = options.content;
+        tooltipContentEl.innerHTML = xssUtils.sanitizeHTML(options.content);
         this.tooltip.classList.remove('is-hidden', 'top', 'right', 'bottom', 'left');
         this.tooltip.style.display = '';
         this.tooltip.classList.add(options.placement || 'top');

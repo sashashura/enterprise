@@ -1,3 +1,5 @@
+/* stylelint-disable scss/no-global-function-names */
+/* stylelint-disable no-invalid-position-at-import-rule */
 // IDS Enterprise - New/Uplift Theme
 //================================================== //
 
@@ -25,7 +27,7 @@ $header-button-disabled-color: rgba($ids-color-palette-white, 0.3);
 $header-primary-btn-background-color: $ids-color-brand-primary-base;
 $header-primary-btn-background-hover-color: $ids-color-palette-azure-50;
 $header-disabled-color: $ids-color-palette-slate-50;
-$header-focus-box-shadow:  0 0 4px 3px rgba(255, 255, 255, 0.3);
+$header-focus-box-shadow: 0 0 4px 3px rgba(255, 255, 255, 0.3);
 
 $dropdown-search-bg-color: $ids-color-palette-white;
 $panel-bg-color: $ids-color-palette-white;
@@ -110,7 +112,7 @@ $tooltip-border-color: $ids-color-palette-slate-80;
 $tooltip-box-shadow: 0 2px 5px $drop-shadow-depth;
 $tooltip-color: $ids-color-palette-white;
 $tooltip-error-bg-color: $ids-color-status-danger;
-$tooltip-error-border-color:  $ids-color-status-danger;
+$tooltip-error-border-color: $ids-color-status-danger;
 $tooltip-error-color: $ids-color-palette-white;
 
 // Badges
@@ -125,26 +127,33 @@ $badge-secondary-bg-color: $ids-color-palette-slate-10;
 $badge-secondary-border-color: $ids-color-palette-slate-60;
 $badge-secondary-hover-bg-color: $ids-color-palette-white;
 $badge-secondary-disabled-border-color: $ids-color-palette-slate-50;
+$badge-error-bg-color: $ids-color-palette-ruby-80;
 $badge-error-color: $ids-color-palette-white;
 $badge-error-icon-color: $ids-color-palette-white;
 $badge-error-hover-icon-color: $ids-color-palette-slate-40;
 $badge-error-hover-bg-color: $ids-color-palette-ruby-90;
-$badge-alert-color: $ids-color-palette-black;
-$badge-alert-icon-color: $ids-color-palette-black;
+$badge-alert-bg-color: $ids-color-palette-amber-100;
+$badge-alert-color: $ids-color-palette-white;
+$badge-alert-icon-color: $ids-color-palette-white;
 $badge-alert-hover-icon-color: $ids-color-palette-slate-40;
 $badge-good-color: $ids-color-palette-white;
 $badge-good-icon-color: $ids-color-palette-white;
-$badge-good-hover-icon-color: $ids-color-palette-slate-40;
-$badge-alert-color: $ids-color-palette-slate-90;
-$badge-good-color: $ids-color-palette-slate-90;
-$badge-good-icon-color: $ids-color-palette-slate-90;
+$badge-good-hover-icon-color: $ids-color-palette-white;
+$badge-good-bg-color: $ids-color-palette-emerald-100;
 $badge-good-hover-bg-color: $ids-color-palette-emerald-30;
+$badge-info-bg-color: $ids-color-palette-azure-80;
 $badge-info-color: $ids-color-palette-white;
 $badge-info-icon-color: $ids-color-palette-white;
 $badge-info-hover-icon-color: $ids-color-palette-slate-40;
-$badge-info-bg-color: $ids-color-brand-primary-base;
 $badge-neutral-icon-color: $ids-color-palette-slate-90;
 $badge-neutral-hover-icon-color: $ids-color-palette-slate-60;
+
+// Status Colors
+$status-01-bg-color: $ids-color-palette-ruby-80;
+$status-02-bg-color: $ids-color-palette-amber-100;
+$status-03-bg-color: $ids-color-palette-amber-100;
+$status-04-bg-color: $ids-color-palette-emerald-100;
+$status-05-bg-color: $ids-color-palette-azure-80;
 
 .tag,
 .badge {
@@ -166,9 +175,9 @@ $popupmenu-checked-color-inverse: $ids-color-brand-primary-base;
 $tertiary-btn-ripple-color: $ids-color-brand-primary-alt;
 
 // Secondary with Border
-$secondary-border-btn-color:  $ids-color-palette-slate-90;
+$secondary-border-btn-color: $ids-color-palette-slate-90;
 $secondary-border-btn-border-color: $ids-color-palette-slate-90;
-$secondary-border-btn-hover-color:  $ids-color-palette-slate-100;
+$secondary-border-btn-hover-color: $ids-color-palette-slate-100;
 $secondary-border-btn-hover-border-color: $ids-color-palette-slate-100;
 $secondary-border-btn-ripple-color: $ids-color-brand-primary-alt;
 
@@ -184,7 +193,7 @@ $error-icon-fill: $ids-color-status-danger;
 $alert-color: $ids-color-palette-amber-100;
 $success-color: $ids-color-status-success;
 $info-color: $ids-color-brand-primary-base;
-$error-focus-box-shadow:  0 0 4px 2px rgba(222, 129, 129, 0.3);
+$error-focus-box-shadow: 0 0 4px 2px rgba(222, 129, 129, 0.3);
 $dirty-icon-fill: $ids-color-palette-amber-50;
 $success-icon-fill: $ids-color-status-success;
 $info-icon-fill: $ids-color-palette-azure-80;
@@ -359,15 +368,15 @@ $cardlist-actions-color: $ids-color-palette-slate-90;
 $cardlist-box-shadow-color: rgba(0, 0, 0, 0.1);
 
 // Switch
-$radio-checked-color:  $ids-color-palette-azure-100;
-$switch-checked-bg-color:  $ids-color-palette-azure-90;
+$radio-checked-color: $ids-color-palette-azure-100;
+$switch-checked-bg-color: $ids-color-palette-azure-90;
 $switch-unchecked-bg-color: $ids-color-palette-white;
 $switch-unchecked-bar-color: $ids-color-palette-slate-80;
 $switch-unchecked-border-color: $ids-color-palette-slate-60;
 $switch-unchecked-color: $ids-color-palette-slate-50;
 $switch-unchecked-pressed-bg-color: $ids-color-palette-slate-40;
-$switch-checked-disabled-bar-color:  $ids-color-palette-azure-30;
-$switch-disabled-bg-color:  $ids-color-palette-slate-20;
+$switch-checked-disabled-bar-color: $ids-color-palette-azure-30;
+$switch-disabled-bg-color: $ids-color-palette-slate-20;
 $switch-disabled-border-color: $ids-color-palette-slate-20;
 $switch-disabled-bar-color: $ids-color-palette-slate-40;
 $switch-focus-box-shadow: 0 0 0 3px #3f505f, 0 0 0 4px $ids-color-brand-primary-base, 0 0 4px 6px rgba(41, 41, 41, 0.3);
@@ -565,7 +574,7 @@ $datagrid-row-icon-color: $ids-color-palette-slate-90;
 
 $datagrid-alternate-bg-color: $ids-color-palette-slate-30;
 $datagrid-alternate-row-hover-color: $ids-color-brand-secondary-alt;
-$datagrid-list-header-bg-color:  $ids-color-palette-slate-30;
+$datagrid-list-header-bg-color: $ids-color-palette-slate-30;
 $datagrid-list-group-header-bg-color: $ids-color-palette-slate-40;
 $datagrid-list-group-header-border-color: $ids-color-palette-slate-30;
 $datagrid-list-header-active-color: $ids-color-palette-slate-40;

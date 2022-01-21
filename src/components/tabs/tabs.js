@@ -54,6 +54,7 @@ const tabContainerTypes = ['horizontal', 'vertical', 'module-tabs', 'header-tabs
  * Module Tabs with cut-off text content.
  * @param {boolean} [settings.multiTabsTooltips=false] if true, will display a tooltip on
  * Multi Tabs with cut-off text content.
+ * @param {string} [settings.countsPosition] If defined, it will display the position of counts.
  * @param {function} [settings.source=null] If defined, will serve as a way of pulling
  * in external content to fill tabs.
  * @param {object} [settings.sourceArguments={}] If a source method is defined, this
@@ -79,6 +80,7 @@ const TABS_DEFAULTS = {
   lazyLoad: true,
   moduleTabsTooltips: false,
   multiTabsTooltips: false,
+  countsPosition: undefined,
   source: null,
   sourceArguments: {},
   tabCounts: false,
@@ -127,6 +129,7 @@ Tabs.prototype = {
     const self = this;
     let tabPanelContainer;
     let moveTabPanelContainer = false;
+    const localeExemptions = ['en-US', 'de-DE', 'ja-JP', 'zh-CN', 'zh-Hans', 'zh-TW', 'zh-Hant'];
 
     // Check for a tab panel container immediately after the `.tab-container`
     // element (default as of IDS Enterprise 4.3.0)
@@ -300,7 +303,13 @@ Tabs.prototype = {
       }
 
       if (self.settings.tabCounts && $(this).find('.count').length === 0) {
-        $(this).prepend('<span class="count">0 </span>');
+        if ((localeExemptions.includes(Locale.currentLocale.name) && self.settings.countsPosition !== 'bottom') || self.settings.countsPosition === 'top') {
+          $(this).prepend('<span class="count">0 </span>');
+        } else if (self.settings.countsPosition === 'bottom') {
+          $(this).append('<span class="count">0 </span>');
+        } else {
+          $(this).append('<span class="count">0 </span>');
+        }
       }
 
       // Make it possible for Module Tabs to display a tooltip containing their contents
@@ -687,7 +696,7 @@ Tabs.prototype = {
       }
 
       // Add it to the App Menu's list of triggers to adjust on open/close
-      $('#application-menu').data('applicationmenu')?.modifyTriggers([appMenuTrigger.children('a')]);
+      $('#application-menu').data('applicationmenu')?.modifyTriggers([appMenuTrigger.children('a')], null, true);
     }
 
     // Add Tab Button
@@ -3847,7 +3856,7 @@ Tabs.prototype = {
 
         if (accountForPadding) {
           parentPadding = parseInt(window.getComputedStyle(parentElement[0])[`padding${isRTL ? 'Right' : 'Left'}`], 10);
-          targetRectObj.left += (isRTL ? parentPadding : (parentPadding * -1)); 
+          targetRectObj.left += (isRTL ? parentPadding : (parentPadding * -1));
           targetRectObj.right += (isRTL ? parentPadding : (parentPadding * -1));
         }
 

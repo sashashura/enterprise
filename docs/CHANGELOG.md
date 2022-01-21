@@ -1,14 +1,127 @@
 # What's New with Enterprise
 
+## v4.60.0 Features
+
+- `[Card]` Added actionable button card by using `<button>` or `<a>` tags. ([#5768](https://github.com/infor-design/enterprise/issues/5768))
+- `[Badges/Tags]` Corrected the colors of badges/tags for better accessibility contrast. ([#5673](https://github.com/infor-design/enterprise/issues/5673))
+- `[Button]` Fix a bug where updated settings not properly rendering disabled state. ([#5928](https://github.com/infor-design/enterprise/issues/5928))
+- `[Dropdown]` Create a Puppeteer Script for Enter key opens dropdown list, when it should only be used to select items within an open list. ([#5842](https://github.com/infor-design/enterprise/issues/5842))
+- `[Tooltip]` Converted the tooltip protractor test suites to puppeteer. ([#5830](https://github.com/infor-design/enterprise/issues/5830))
+
+## v4.60.0 Fixes
+
+- `[Calendar]` Fixed an issue where you could not have more than one in the same page. ([#6042](https://github.com/infor-design/enterprise/issues/6042))
+- `[Column]` Fix a bug where bar size is still showing even the value is zero in column chart. ([#5911](https://github.com/infor-design/enterprise/issues/5911))
+- `[Datagrid]` Fix Edit Input Date Field on medium row height in Datagrid. ([#5955](https://github.com/infor-design/enterprise/issues/5955))
+- `[Datagrid]` Fixed close icon alignment on mobile viewport. ([#6023](https://github.com/infor-design/enterprise/issues/6023))
+- `[Datagrid]` Fixed close icon alignment on mobile viewport, Safari browser. ([#5946](https://github.com/infor-design/enterprise/issues/5946))
+- `[Datagrid]` Fixed UI alignment of close icon button on mobile view. ([#5947](https://github.com/infor-design/enterprise/issues/5947))
+- `[Editor]` Changed selector for for image value selction from id to name. ([#5915](https://github.com/infor-design/enterprise/issues/5915))
+- `[Field Options]` Fixed UI alignment of close icon button (searchfield) in Field Options. ([#5983](https://github.com/infor-design/enterprise/issues/5983))
+- `[Export]` Added data sanitization in Export to CSV. ([#5982](https://github.com/infor-design/enterprise/issues/5982))
+- `[Field Options]` Fixed UI alignment of close icon button (searchfield) in Field Options. ([#5983](https://github.com/infor-design/enterprise/issues/5983))
+- `[Field Options]` Fixed UI alignment of close icon button (searchfield) in Field Options. ([#5983](https://github.com/infor-design/enterprise/issues/5983))
+- `[General]` Fixed several memory leaks with the attached data object. ([#6020](https://github.com/infor-design/enterprise/issues/6020))
+- `[Header]` Fixed a regression bug where the buttonset was not properly aligned correctly. ([#6039](https://github.com/infor-design/enterprise/issues/6039))
+- `[Listbuilder]` Fix on disable bug: Will not enable on call to enable() after disable() twice. ([#5885](https://github.com/infor-design/enterprise/issues/5885))
+- `[Locale]` Changed the text from Insert Anchor to Insert Hyperlink. Some translations my still reference anchor until updated from the translation team. ([#5987](https://github.com/infor-design/enterprise/issues/5987))
+- `[Modal]` Fixed a regression bug where elements inside of the tab panel were being disabled when its `li` tab is not selected (is-selected class) initially. ([NG#1210](https://github.com/infor-design/enterprise-ng/issues/1210))
+- `[Searchfield]` Fixed UI alignment of close icon button (searchfield) in Datagrid. ([#5954](https://github.com/infor-design/enterprise/issues/5954))
+- `[Tabs Module]` Fixed UI alignment of close icon button on mobile view([#5951](https://github.com/infor-design/enterprise/issues/5951))
+
+## v4.59.2 Fixes
+
+- `[Calendar]` Fixed an issue where you could not have more than one in the same page. ([#6042](https://github.com/infor-design/enterprise/issues/6042))
+- `[Header]` Fixed a regression bug where the buttonset was not properly aligned correctly. ([#6039](https://github.com/infor-design/enterprise/issues/6039))
+
+## v4.59.1 Fixes
+
+- `[Modal]` Fixed a regression bug where elements inside of the tab panel were being disabled when its `li` tab is not selected (is-selected class) initially. ([NG#1210](https://github.com/infor-design/enterprise-ng/issues/1210))
+
+## v4.59.0 Markup Changes
+
+- `[About]` Changed the OS Version to not show the version. This is because this information is incorrect and the correct information is no longer given by newer versions of Operating systems in any browser. or this reason the version is removed from the OS field on the about dialog. ([#5813](https://github.com/infor-design/enterprise/issues/5813))
+
+## v4.59.0 Fixes
+
+- `[Calendar]` Added an option to configure month label to use abbreviation and changed month label to display on the first day of the months rendered in calendar. ([#5941](https://github.com/infor-design/enterprise/issues/5941))
+- `[Calendar]` Fixed the personalize column checkbox not syncing when having two datagrids. ([#5859](https://github.com/infor-design/enterprise/issues/5859))
+- `[Cards]` Added focus state on selected cards. ([#5684](https://github.com/infor-design/enterprise/issues/5684))
+- `[Colorpicker]` Fixed a bug where the red diagonal line that goes beyond its border when field-short/form-layout-compact is used. ([#5744](https://github.com/infor-design/enterprise/issues/5744))
+- `[Datagrid]` Fixed a bug where the maskOptions function is never called when the grid has filtering. ([#5847](https://github.com/infor-design/enterprise/issues/5847))
+- `[Calendar]` Fixed the personalize column checkbox not syncing when having two datagrids. ([#5859](https://github.com/infor-design/enterprise/issues/5859))
+- `[Fieldset]` Implemented design improvements. ([#5638](https://github.com/infor-design/enterprise/issues/5638))
+- `[Fileupload-Advanced]` Fixed a bug where it cannot add a new file after removing the old one. ([#5598](https://github.com/infor-design/enterprise/issues/5598))
+- `[Datagrid]` Fixed a bug where the maskOptions function is never called when the grid has filtering. ([#5847](https://github.com/infor-design/enterprise/issues/5847))
+- `[Datagrid]` Fixed a bug where fileupload value is undefined when trying to upload. ([#5846](https://github.com/infor-design/enterprise/issues/5846))
+- `[Dropdown]` Clear search matches after an item is selected. ([#5632](https://github.com/infor-design/enterprise/issues/5632))
+- `[Dropdown]` Shorten filter delay for single character entries. ([#5793](https://github.com/infor-design/enterprise/issues/5793))
+- `[Fieldset]` Implemented design improvements. ([#5638](https://github.com/infor-design/enterprise/issues/5638))
+- `[Linechart]` Added default values on line width and y-axis when data in dataset is blank. ([#1172](https://github.com/infor-design/enterprise-ng/issues/1172))
+- `[Listview]` Fixed a bug where the alert icons in RTL were missing. ([#5827](https://github.com/infor-design/enterprise/issues/5827))
+- `[Locale]` Fixed latvian translation for records per page. ([#5969](https://github.com/infor-design/enterprise/issues/5969))
+- `[Locale]` Fixed latvian translation for Select All. ([#5895](https://github.com/infor-design/enterprise/issues/5895))
+- `[Locale]` Capitalized the finnished translation for seconds. ([#5894](https://github.com/infor-design/enterprise/issues/5894))
+- `[Locale]` Added missing translations for font picker. ([#5784](https://github.com/infor-design/enterprise/issues/5784))
+- `[Modal]` Fixed a close button overlapped when title is long. ([#5795](https://github.com/infor-design/enterprise/issues/5795))
+- `[Modal]` Modal exits if Escape key is pressed in datagrid. ([#5796](https://github.com/infor-design/enterprise/issues/5796))
+- `[Modal]` Fixed modal focus issues with inline display none. ([#5875](https://github.com/infor-design/enterprise/issues/5875))
+- `[Searchfield]` Fixed a bug where the close button icon is overlapping with the search icon in RTL. ([#5807](https://github.com/infor-design/enterprise/issues/5807))
+- `[Spinbox]` Fixed a bug where the spinbox controls still show the ripple effect even it's disabled. ([#5719](https://github.com/infor-design/enterprise/issues/5719))
+- `[Tabs]` Added the ability to set the position of counts via settings (top & bottom), removed the counts in spillover, and positioned the counts depending on the current locale. ([#5258](https://github.com/infor-design/enterprise/issues/5258))
+- `[Toolbar]` Fixed an issue where things in the page get scrambled if you have a button with undefined ids. ([#1194](https://github.com/infor-design/enterprise-ng/issues/1194))
+
+## v4.59.0 Features
+
+- `[Calendar]` Modify validations to allow custom colors. ([#5743](https://github.com/infor-design/enterprise/issues/5743))
+- `[Accordion]` Adjusted spacing and hitboxes for Mobile Enhancements. ([#5611](https://github.com/infor-design/enterprise/issues/5611))
+- `[Area]` Converted the area protractor test suites to puppeteer. ([#5834](https://github.com/infor-design/enterprise/issues/5834))
+- `[Cards]` Added mobile enhancements and style changes. ([#5609](https://github.com/infor-design/enterprise/issues/5609))
+- `[Button]` Added test scripts for button. ([#5851](https://github.com/infor-design/enterprise/issues/5851))
+- `[BusyIndicator]` Added hide event. ([#5794](https://github.com/infor-design/enterprise/issues/5794))
+- `[Column]` Added example page for legend colors. ([#5761](https://github.com/infor-design/enterprise/issues/5761))
+- `[Datagrid]` Added datagrid feature using arrow keys to select. ([#5713](https://github.com/infor-design/enterprise/issues/5713))
+- `[Datagrid]` Added exportToCsv option for datagrid toolbar. ([#5786](https://github.com/infor-design/enterprise/issues/5786))
+- `[Datagrid]` Added new event `filteroperatorchanged` to datagrid. ([#5899](https://github.com/infor-design/enterprise/issues/5899))
+- `[File Upload]` Added puppeteer tests for file upload. ([#5808](https://github.com/infor-design/enterprise/issues/5808))
+- `[Toolbar-Flex]` Added responsive design for searchfield with categories and basic searchfield. ([#5619](https://github.com/infor-design/enterprise/issues/5619))
+- `[Timepicker]` Added settings in timepicker to limit the hours that can be selected. ([#5880](https://github.com/infor-design/enterprise/issues/5880))
+- `[TrackDirty]` Converted the trackdirty protractor test suites to puppeteer. ([#5829](https://github.com/infor-design/enterprise/issues/5829))
+
+(47 Issues Solved This Release, Backlog Enterprise 219, Backlog Ng 34, 1100 Functional Tests, 1692 e2e Tests, 179 Puppeteer Tests)
+
+## v4.58.3 Fixes
+
+- `[Datagrid]` Added new event `filteroperatorchanged` to datagrid. ([#5899](https://github.com/infor-design/enterprise/issues/5899))
+
+## v4.58.2 Fixes
+
+- `[Toolbar]` Fixed an issue where things in the page get scrambled if you have a button with undefined ids. ([#1194](https://github.com/infor-design/enterprise-ng/issues/1194))
+
+## v4.58.1 Fixes
+
+- `[Misc]` Fixed several security issues with xss (details hidden). ([#GSHA](https://github.com/infor-design/enterprise/security/advisories))
+
 ## v4.58.0 Features
 
+- `[Accordion]` Added puppeteer tests for accordion. ([#5836](https://github.com/infor-design/enterprise/issues/5836))
+- `[App Menu]` Fixed a bug causing re-invoke of the entire Application Menu and its child components whenever a new App Menu trigger is added to the stored `triggers` array. ([#5480](https://github.com/infor-design/enterprise/issues/5480))
+- `[Actionsheet]` Added puppeteer tests for actionsheet. ([#5832](https://github.com/infor-design/enterprise/issues/5832))
 - `[Column]` Added support to add a line chart in column-grouped. ([#4598](https://github.com/infor-design/enterprise/issues/4598))
 - `[Column]` Added feature to rotate labels. ([#5773](https://github.com/infor-design/enterprise/issues/5773))
+- `[Column Chart]` Added the ability to add axis labels in column-grouped chart. ([#5721](https://github.com/infor-design/enterprise/issues/5721))
+- `[Datagrid]` Added option to format numbers and dates based on current locale. ([#5663](https://github.com/infor-design/enterprise/issues/5663))
+- `[Slider]` Added support for tooltip to show on load in slider. ([#3747](https://github.com/infor-design/enterprise/issues/3747))
 
 ## v4.58.0 Fixes
 
+- `[Modal]` Added option to disable primary trigger on field. ([#5728](https://github.com/infor-design/enterprise/issues/5728))
 - `[Calendar]` Fix the header days where it should be seen when scrolled down. ([#5742](https://github.com/infor-design/enterprise/issues/5742))
 - `[Datagrid]` Tab doesn't go to cells if cellNavigation is false. ([#5734](https://github.com/infor-design/enterprise/issues/5734))
+- `[Calendar]` Fix the header days where it should be seen when scrolled down. ([#5742](https://github.com/infor-design/enterprise/issues/5742))
+- `[Contextmenu/Popupmenu]` Fixed breaking of shared menu if a datagrid is present on the page. ([#5818](https://github.com/infor-design/enterprise/issues/5818))
+- `[Datagrid]` Tab doesn't go to cells if cellNavigation is false. ([#5734](https://github.com/infor-design/enterprise/issues/5734))
+- `[Dropdown]` Clear search matches after an item is selected. ([#5632](https://github.com/infor-design/enterprise/issues/5632))
 - `[Locale]` Fix issue in parsing date when AM/PM comes first before Hours (a:hh:mm). ([#5129](https://github.com/infor-design/enterprise/issues/5129))
 - `[Modal]` Added option to disable primary trigger on field. ([#5728](https://github.com/infor-design/enterprise/issues/5728))
 - `[Searchfield]` Save input value when searchfield collapses but is not cleared via button click or key. ([#5792](https://github.com/infor-design/enterprise/issues/5792))
@@ -17,6 +130,16 @@
 - `[Tabs-Vertical]` Fixed on Tabs Vertical Aria and Roles. ([#5712](https://github.com/infor-design/enterprise/issues/5712))
 - `[Toolbar Searchfield]` Fixed the height the collapse button on a smaller viewport (`766px` and below). ([#5791](https://github.com/infor-design/enterprise/issues/5791))
 - `[Lookup]` Rows are selected based on the initial values in the input field. ([#1132](https://github.com/infor-design/enterprise-ng/issues/1132))
+
+(30 Issues Solved This Release, Backlog Enterprise 224, Backlog Ng 33, 1269 Functional Tests, 1689 e2e Tests, 167 Puppeteer Tests)
+
+## v4.57.2 Fixes
+
+- `[Misc]` Fixed several security issues with xss (details hidden). ([#GSHA](https://github.com/infor-design/enterprise/security/advisories))
+
+## v4.57.1 Fixes
+
+- `[Tabs]` Fixed regression bug where tabs are no longer working inside the modal. ([#5867](https://github.com/infor-design/enterprise/issues/5867))
 
 ## v4.57.0 Features
 
@@ -40,6 +163,7 @@
 ### v4.57.0 Markup Changes
 
 - `[Tabs]` Some of the aria attributes have been changed, see the issue for details.([#5712](https://github.com/infor-design/enterprise/issues/5712))
+- `[Notification Badge]` Rename methods in Notification Badge for better readability. ([#1169](https://github.com/infor-design/enterprise-ng/issues/1169))
 
 ## v4.57.0 Fixes
 

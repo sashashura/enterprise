@@ -28,10 +28,10 @@
   .chart-targeted-achievement {
     .bar,
     &.bar {
-      height: ($input-size-compact-height/2) !important;
+      height: ($input-size-compact-height / 2) !important;
 
       &.completed {
-        margin-top: -($input-size-compact-height/2) !important;
+        margin-top: -($input-size-compact-height / 2) !important;
       }
     }
   }
@@ -64,7 +64,7 @@
   span:not(.audible) {
     font-size: $ids-size-font-sm;
     position: absolute;
-    right: 2px;
+    right: -2px;
     text-align: right;
     top: 34px;
 
@@ -346,7 +346,6 @@
       }
     }
   }
-
 }
 
 .chart-completion-target-padding .total.bar.chart-completion-target {

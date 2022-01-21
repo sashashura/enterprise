@@ -57,8 +57,8 @@ const BUTTON_DEFAULTS = {
   ripple: true,
   hitbox: false,
   validate: false,
-  badge: false,
-  badgeOptions: {
+  notificationBadge: false,
+  notificationBadgeOptions: {
     position: 'upper-right',
     color: 'alert'
   },
@@ -130,15 +130,14 @@ Button.prototype = {
     * @returns {void}
     */
   createNotificationBadge() {
-    if (!this.settings.badge) {
+    if (!this.settings.notificationBadge) {
       return;
     }
 
     // const badgeEl = this.element.append(`<div id="notification-badge"></div>`);
     this.element.notificationbadge({
-      position: this.settings.badgeOptions.position,
-      color: this.settings.badgeOptions.color,
-      badge: this.settings.badge
+      position: this.settings.notificationBadgeOptions.position,
+      color: this.settings.notificationBadgeOptions.color
     });
   },
 
@@ -312,7 +311,14 @@ Button.prototype = {
       this.element.prepend(this.hitboxArea);
     }
 
-    // Handle a one-time `disabled` setting, if defined.
+    // Handling force disabling buttons since disabled setting is used also in button().data('button').disabled = 'true' and updated(settings)
+    if (this.settings.forceDisable) {
+      this.disabled = this.settings.disabled;
+      delete this.settings.disabled;
+      delete this.settings.forceDisable;
+    }
+
+    // // Handle a one-time `disabled` setting, if defined.
     if (this.settings.disabled) {
       this.disabled = this.settings.disabled === true;
       delete this.settings.disabled;
