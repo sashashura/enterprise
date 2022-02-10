@@ -29,26 +29,59 @@
 
     </div>
     <button class="btn-secondary" type="button" id="btn1">Reload</button>
+    <button class="btn-secondary" type="button" id="btn2">Change Dataset</button>
   </div>
 </div>
 
+<ul id="action-popupmenu" class="popupmenu">
+  <li><a href="#" id="cut" data-automation-id="cut-automation-id">Option 1</a></li>
+  <li><a href="#" id="copy" data-automation-id="copy-automation-id">Option 2</a></li>
+  <li><a href="#" id="paste" data-automation-id="paste-automation-id">Option 3</a></li>
+</ul>
+
 <script>
   $('body').on('initialized', function() {
+    isData1 = true;
+    data1 = [
+      {firstName: 'Item', lastName: 'One'},
+      {firstName: 'Item', lastName: 'Two'}
+    ];
 
-    data = [];
-    data.push({firstName: 'Item', lastName: 'One'});
-    data.push({firstName: 'Item', lastName: 'Two'});
+    data2 = [
+      { firstName: 'Stuff', lastName: '1' },
+      { firstName: 'Stuff', lastName: '2' }
+    ]
+
+    data = Array.from(data1);
 
     $('#list-one').listview({dataset: data, template: $('#employee-tmpl').html()});
+    
+    $('#list-one').on('contextmenu', function (e, api) {
+      const elem = api.elem[0];
+      const rect = elem.getBoundingClientRect()
+      $(elem).popupmenu({
+        eventObj: e,
+        offset: { x: rect.x + 100 , y: rect.y + 30 },
+        menu: 'action-popupmenu',
+        trigger: 'immediate'
+      });
+    });
 
     $('#btn1').on('click', function () {
-      data.push({firstName: 'Item', lastName: 'Updated'});
-      data.push({firstName: 'Item', lastName: 'Updated'});
+      const firstName = isData1 ? 'Item' : 'Stuff';
 
+      data.push({firstName: firstName, lastName: 'Updated'});
+      data.push({firstName: firstName, lastName: 'Updated'});
       $('#list-one').trigger('updated', [{ dataset: data }]);
     });
 
-  });
+    $('#btn2').on('click', function () {
+      data = Array.from(isData1 ? data2 : data1);
+      $('#list-one').trigger('updated', [{ dataset: data }]);
+      isData1 = !isData1;
+    })
+
+  })
 </script>
 
 {{={{{ }}}=}}

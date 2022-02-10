@@ -77,7 +77,12 @@ const LISTVIEW_DEFAULTS = {
   searchTermMinSize: 1,
   initializeContents: false,
   attributes: null,
-  attributesOverride: null
+  attributesOverride: null,
+  contextMenuSettings: {
+    id: null,
+    template: null,
+    container: null
+  }
 };
 
 function ListView(element, settings) {
@@ -1518,6 +1523,14 @@ ListView.prototype = {
         .off('contextmenu.listview longpress.listview', 'li, tr')
         .on('contextmenu.listview longpress.listview', 'li, tr', function (e) {
           const item = $(this);
+          const contextMenuSettings = self.settings.contextMenuSettings;
+
+          // check if contextmenu element exists, if not, create contextmenu based on settings
+          if (typeof contextMenuSettings.id === 'string' && $(`#${contextMenuSettings.id}`).length === 0) {
+            if (contextMenuSettings.container && contextMenuSettings.template) {
+              contextMenuSettings.container.append($(contextMenuSettings.template));
+            }
+          }
 
           e.preventDefault();
           e.stopPropagation();
@@ -1527,6 +1540,21 @@ ListView.prototype = {
             index: item.index(),
             originalEvent: e
           }]);
+
+          const itemApi = item.data('popupmenu');
+
+          // save contextmenu settings
+          if (itemApi && itemApi.menu.length > 0) {
+            const place = itemApi.wrapperPlace;
+
+            contextMenuSettings.template = itemApi.settings.menuHtml;
+            contextMenuSettings.id = itemApi.settings.menu;
+
+            if (place) {
+              contextMenuSettings.container = place.settings.container;
+            }
+          }
+
           return false;
         });
     }

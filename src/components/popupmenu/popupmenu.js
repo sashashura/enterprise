@@ -271,6 +271,8 @@ PopupMenu.prototype = {
       return;
     }
 
+    this.settings.menuHtml = this.menu[0].outerHTML;
+
     // Add attributes to both the trigger element and the menu `<ul>`
     if (this.settings.attributes) {
       utils.addAttributes(this.element, this, this.settings.attributes, 'trigger');
@@ -2499,6 +2501,7 @@ PopupMenu.prototype = {
     if (!this.menu || !this.menu.length || !this.menu.parent()) {
       return this;
     }
+
     const wrapper = this.menu.parent('.popupmenu-wrapper');
 
     function unwrapPopup(menu) {
