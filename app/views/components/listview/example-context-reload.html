@@ -1,0 +1,72 @@
+<div class="row">
+    <div class="twelve columns">
+      <h2 class="fieldset-title">Listview Custom Content</h2>
+      <div class="field">
+        <button class="btn-secondary" type="button" id="btn1">Reload</button>
+        <button class="btn-secondary" type="button" id="btn2">Change Dataset</button>
+      </div>
+      <div class="listview" data-init="false" data-tmpl="employee-tmpl" id="list-one"></div>
+    </div>
+    <ul id="action-popupmenu" class="popupmenu">
+      <li><a href="#" id="cut" data-automation-id="cut-automation-id">Option 1</a></li>
+      <li><a href="#" id="copy" data-automation-id="copy-automation-id">Option 2</a></li>
+      <li><a href="#" id="paste" data-automation-id="paste-automation-id">Option 3</a></li>
+    </ul>
+</div>
+
+
+<script>
+  $('body').on('initialized', function() {
+    isData1 = true;
+    data1 = [
+      {firstName: 'Item', lastName: 'One', title: 'New'},
+      {firstName: 'Item', lastName: 'Two', title: 'New'}
+    ];
+
+    data2 = [
+      { firstName: 'Stuff', lastName: 'One', title: 'New' },
+      { firstName: 'Stuff', lastName: 'Two', title: 'New' }
+    ]
+
+    data = Array.from(data1);
+
+    $('#list-one').listview({dataset: data, template: $('#employee-tmpl').html()});
+    
+    $('#list-one').on('contextmenu', function (e, api) {
+      const elem = api.elem[0];
+      const rect = elem.getBoundingClientRect()
+      $(elem).popupmenu({
+        eventObj: e,
+        offset: { x: rect.x + 100 , y: rect.y + 30 },
+        menu: 'action-popupmenu',
+        trigger: 'immediate'
+      });
+    });
+
+    $('#btn1').on('click', function () {
+      const firstName = isData1 ? 'Item' : 'Stuff';
+
+      data.push({firstName: firstName, lastName: 'One', title: 'Updated'});
+      data.push({firstName: firstName, lastName: 'Two', title: 'Updated'});
+      $('#list-one').trigger('updated', [{ dataset: data }]);
+    });
+
+    $('#btn2').on('click', function () {
+      data = Array.from(isData1 ? data2 : data1);
+      $('#list-one').trigger('updated', [{ dataset: data }]);
+      isData1 = !isData1;
+    })
+
+  })
+</script>
+
+{{={{{ }}}=}}
+<script id="employee-tmpl" type="text/html">
+  <ul>
+    {{#dataset}}
+       <li>
+        <p>{{firstName}} {{lastName}}, {{title}}</p>
+      </li>
+    {{/dataset}}
+  </ul>
+</script>
