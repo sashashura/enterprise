@@ -800,7 +800,7 @@ describe('Dropdown blank option tests', () => {
     const dropdownEl = await element(by.css('div.dropdown'));
     await dropdownEl.click();
     await browser.driver
-      .wait(protractor.ExpectedConditions.presenceOf(element(by.id('dropdown-list'))), config.waitsFor);
+      .wait(protractor.ExpectedConditions.visibilityOf(element(by.id('dropdown-list'))), config.waitsFor);
 
     expect(await element(by.css('.dropdown-option.is-selected')).getAttribute('data-val')).toBe('blank');
   });
@@ -812,7 +812,7 @@ describe('Dropdown blank option tests', () => {
     const dropdownEl = await element(by.css('div.dropdown'));
     await dropdownEl.click();
     await browser.driver
-      .wait(protractor.ExpectedConditions.presenceOf(element(by.id('dropdown-list'))), config.waitsFor);
+      .wait(protractor.ExpectedConditions.visibilityOf(element(by.id('dropdown-list'))), config.waitsFor);
 
     expect(await element(by.css('.dropdown-option.is-selected')).getAttribute('data-val')).toBe('blank');
   });
