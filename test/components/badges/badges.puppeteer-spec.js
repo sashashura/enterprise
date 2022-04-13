@@ -18,7 +18,7 @@ describe('Badges Puppeteer Tests', () => {
     });
   });
   
-  describe('Badges/Tag accessibility color tests for New Theme', () => {
+  describe('Badges/Tag accessibility color tests for New Theme - Contrast', () => {
     const url = `${baseUrl}/example-index.html?theme=new&mode=contrast&colors=003876`;
     beforeAll(async () => {
       await page.goto(url, { waitUntil: ['domcontentloaded', 'networkidle0'] });
