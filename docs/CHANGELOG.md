@@ -1,5 +1,11 @@
 # What's New with Enterprise
 
+## v4.66.1
+
+## v4.66.1 Fixes
+
+- `[Datagrid]` Fixed an issue with this feature and row heights. ([#6490](https://github.com/infor-design/enterprise/issues/6490))
+
 ## v4.66.0
 
 ## v4.66.0 Features
