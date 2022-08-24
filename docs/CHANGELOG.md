@@ -5,6 +5,7 @@
 ## v4.66.1 Fixes
 
 - `[Datagrid]` Fixed an issue with this feature and row heights. ([#6490](https://github.com/infor-design/enterprise/issues/6490))
+- `[Datagrid]` Fix on datagrid column width. ([#6725](https://github.com/infor-design/enterprise/issues/6725))
 
 ## v4.66.0
 
